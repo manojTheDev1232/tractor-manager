@@ -1,0 +1,12 @@
+
+.sidebar a {
+  text-decoration: none;
+  color: black; /* Ensures the link text stays white */
+  display: block;
+  padding: 5px 0;
+}
+
+.sidebar a:hover {
+  color: #ccc; /* Adds a nice hover effect */
+  text-decoration: none;
+}
