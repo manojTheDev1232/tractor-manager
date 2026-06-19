@@ -1,1 +1,78 @@
-<p>diesel-list works!</p>
+<div class="container">
+  <div class="row gap-2 flex-nowrap">
+    <div class="col-6 border rounded p-3">
+      <div class="d-flex justify-content-between align-items-center">
+        <h5>Diesel purchases</h5>
+        <button class="btn btn-outline-dark">
+          <i class="ti ti-plus"></i>Add purchase
+        </button>
+      </div>
+      <div class="mt-2">
+        <form class="d-flex flex-column gap-2">
+          <input
+            class="form-control"
+            type="text"
+            placeholder="Search vendor.."
+          />
+          <input class="form-control" type="month" name="" id="" />
+        </form>
+      </div>
+      <div class="table-responsive mt-4" style="min-height: 300px">
+        <table class="table align-middle">
+          <thead>
+            <tr class="">
+              <th>Vendor</th>
+              <th>Rate/L</th>
+              <th>Date</th>
+              <th>Amount</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let purchase of pagedPurchases()">
+              <td class="fw-medium">{{ purchase.vendorName }}</td>
+              <td>{{ purchase.ratePerLiter }}</td>
+              <td>{{ purchase.date | date: "d MMM" }}</td>
+              <td class="text-success fw-medium">
+                +&#8377;{{ purchase.amount | number }}
+              </td>
+              <td class="text-end">
+                <a class="me-2 text-decoration-none">
+                  <i class="ti ti-edit"></i>
+                </a>
+                <i class="ti ti-trash text-danger" style="cursor: pointer"></i>
+              </td>
+            </tr>
+            <tr *ngIf="pagedPurchases().length === 0">
+              <td colspan="6" class="text-center text-muted py-4">
+                No jobs Found
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div
+        class="d-flex justify-content-between align-items-center mt-2 small text-muted"
+      >
+        <span>
+          Showing{{ (currentPage() - 1) * pageSize + 1 }}-{{
+            Math.min(currentPage() * pageSize, filteredPurchases().length)
+          }}
+          of {{ filteredPurchases().length }}
+        </span>
+        <div class="d-flex gap-1">
+          <button
+            class="btn btn-sm btn-outline-secondary"
+            [disabled]="currentPage() === 1"
+          >
+            Prev
+          </button>
+          <button class="btn btn-sm btn-outline-secondary">Next</button>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 border rounded p-3">
+      <app-diesel-form></app-diesel-form>
+    </div>
+  </div>
+</div>

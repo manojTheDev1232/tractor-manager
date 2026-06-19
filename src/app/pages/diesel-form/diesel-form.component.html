@@ -1,1 +1,50 @@
-<p>diesel-form works!</p>
+<div class="container">
+  <h5>Add Diesal Purchase</h5>
+  <form action="">
+    <div class="row">
+      <div class="col">
+        <label class="form-label" for="">Vendor /pump name</label>
+        <select class="form-select" name="" id="">
+          <option value="">Select vendor</option>
+          <option value="">ramesh</option>
+          <option value="">mahesh</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-6">
+        <label class="form-label">Liters</label>
+        <input class="form-control" type="text" placeholder="e.g.40" />
+      </div>
+      <div class="col">
+        <label class="form-label">Rate per liter (&#8377;)</label>
+        <input class="form-control" type="text" placeholder="e.g.95" />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <label class="form-label">Total cost (&#8377;)</label>
+        <input class="form-control" type="text" placeholder="Auto calculated" />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <label class="form-label">Date</label>
+        <input class="form-control" type="date" placeholder="e.g.4" />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <label for="" class="form-label"
+          >Odometer / hour meter reading (optional)</label
+        >
+        <input class="form-control" type="number" />
+      </div>
+    </div>
+    <div class="d-flex justify-content-between align-items-center mt-2">
+      <button class="btn btn-success">Save purchase</button>
+      <button class="btn btn-secondary">Cancel</button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,50 @@
+.farmer-card {
+  border: 1px solid #eaeaea;
+  border-radius: 10px;
+  padding: 12px 14px;
+  background: #fff;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+
+.avatar-success {
+  background-color: #e6efdb;
+  color: #335c1f;
+}
+
+.avatar-warning {
+  background-color: #faeeda;
+  color: #8a5a12;
+}
+
+.farmer-name {
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.farmer-phone {
+  font-size: 0.75rem;
+  color: #888;
+}
+
+.status-paid {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #335c1f;
+}
+
+.status-due {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #8a5a12;
+}

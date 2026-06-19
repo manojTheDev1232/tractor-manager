@@ -1,1 +1,27 @@
-<p>pending-payments works!</p>
+<div class="card border-0 shadow-sm p-3 p-md-4">
+  <h3 class="mb-3">Pending Payments</h3>
+  <div class="tile tile-warning mb-3" style="max-width: 280px">
+    <p class="tile-label">Total pending</p>
+    <h3 class="tile-value">&#8377;{{ totalPending() | number }}</h3>
+  </div>
+  <div *ngIf="pendingJobs().length === 0" class="text-center text-muted py-5">
+    <i
+      class="ti ti-circlre-check"
+      style="font-size: 32px; color: #5a9216"
+      ;
+    ></i>
+    <p class="mt-2 mt-0">No pending payments. All caught up!</p>
+  </div>
+  <div *ngFor="let job of pendingJobs()" class="pending-row">
+    <div>
+      <p>{{ job.farmerName }}</p>
+      <p>Job on {{ job.date | date: "d MMM" }} &middot; {{ job.acres }}acres</p>
+    </div>
+    <div class="text-end">
+      <p class="row-amount mb-1">&#8377;{{ job.amount | number }}</p>
+      <button class="btn btn-sm btn-success" (click)="markPaid(job)">
+        Mark paid
+      </button>
+    </div>
+  </div>
+</div>

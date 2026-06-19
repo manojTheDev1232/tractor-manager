@@ -1,0 +1,43 @@
+.tile {
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+  height: 100%;
+}
+
+.tile-label {
+  font-size: 0.8rem;
+  margin-bottom: 6px;
+  opacity: 0.85;
+}
+
+.tile-value {
+  font-size: 1.6rem;
+  font-weight: 500;
+  margin-bottom: 6px;
+}
+
+.tile-sub {
+  font-size: 0.75rem;
+  margin-bottom: 0;
+  opacity: 0.75;
+}
+
+.tile-income {
+  background-color: #e6efdb;
+  color: #335c1f;
+}
+
+.tile-expense {
+  background-color: #f6e3e1;
+  color: #7a3127;
+}
+
+.tile-neutral {
+  background-color: #f1efe8;
+  color: #3d3a33;
+}
+
+.tile-info {
+  background-color: #dde9f7;
+  color: #2e5b8e;
+}

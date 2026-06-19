@@ -1,11 +1,53 @@
 <div class="container">
+  <div class="row g-3 mb-3">
+    <div class="col-6 col-md-3">
+      <div class="tile tile-income border rounded">
+        <p class="tile-label">Total earned</p>
+        <h3 class="tile-value">+&#8377;{{ summary().totalEarned | number }}</h3>
+        <p class="tile-sub">{{ summary().jobsCount }} jobs this month</p>
+      </div>
+    </div>
+
+    <div class="col-6 col-md-3">
+      <div class="tile tile-expense border rounded">
+        <p class="tile-label">Diesel cost</p>
+        <h3 class="tile-value">-&#8377;{{ summary().dieselCost | number }}</h3>
+        <p class="tile-sub">{{ summary().totalLiters }} liters used</p>
+      </div>
+    </div>
+
+    <div class="col-6 col-md-3">
+      <div class="tile tile-neutral border rounded">
+        <p class="tile-label">Net profit</p>
+        <h3 class="tile-value">&#8377;{{ summary().netProfit | number }}</h3>
+        <p class="tile-sub">
+          {{
+            (summary().netProfit / summary().totalEarned) * 100
+              | number: "1.0-0"
+          }}% margin
+        </p>
+      </div>
+    </div>
+
+    <div class="col-6 col-md-3">
+      <div class="tile tile-info border rounded">
+        <p class="tile-label">Pending payments</p>
+        <h3 class="tile-value">
+          &#8377;{{ summary().pendingAmount | number }}
+        </h3>
+        <p class="tile-sub">{{ summary().pendingFarmersCount }} farmers due</p>
+      </div>
+    </div>
+  </div>
   <div class="row gap-2 flex-nowrap">
     <!-- left side  -->
-    <div class="col-6 border rounded p-3">
+    <!-- <div class="col-6 border rounded p-4">
       <app-jobs-list></app-jobs-list>
     </div>
 
-    <!-- right side -->
-    <div class="col-6 border rounded">Column 2</div>
+    right side
+    <div class="col-6 border rounded p-4"><app-job-form></app-job-form></div> -->
+
+    <app-reports></app-reports>
   </div>
 </div>

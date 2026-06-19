@@ -1,1 +1,83 @@
-<p>reports works!</p>
+<div class="card border-0 shadow-sm p-3 p-md-4">
+  <div
+    class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2"
+  >
+    <!-- <h3 class="mb-0">Reports</h3> -->
+    <div class="d-flex gap-2 flex-wrap">
+      <select
+        class="form-select form-select-sm"
+        style="width: auto"
+        [value]="selectedRange"
+        (change)="onRangeChange($any($event.target).value)"
+      >
+        <option value="thisMonth">This month</option>
+        <option value="last3">Last 3 months</option>
+        <option value="thisYear">This year</option>
+        <option value="custom">Custom range</option>
+      </select>
+      <button class="btn btn-sm btn-outline-secondary" (click)="exportPdf()">
+        <i class="ti ti-download"></i> Export PDF
+      </button>
+      <button class="btn btn-sm btn-outline-secondary" (click)="exportExcel()">
+        <i class="ti ti-download"></i> Export Excel
+      </button>
+    </div>
+  </div>
+
+  <!-- Summary tiles -->
+  <!-- <div class="row g-3 mb-4">
+    <div class="col-6 col-md-3">
+      <div class="tile tile-income">
+        <p class="tile-label">Total earned</p>
+        <h4 class="tile-value">&#8377;{{ summary().totalEarned | number }}</h4>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="tile tile-expense">
+        <p class="tile-label">Total diesel cost</p>
+        <h4 class="tile-value">&#8377;{{ summary().dieselCost | number }}</h4>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="tile tile-neutral">
+        <p class="tile-label">Other expenses</p>
+        <h4 class="tile-value">&#8377;{{ otherExpenses | number }}</h4>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="tile tile-info">
+        <p class="tile-label">Net profit</p>
+        <h4 class="tile-value">&#8377;{{ netProfit() | number }}</h4>
+      </div>
+    </div>
+  </div> -->
+
+  <!-- Charts -->
+  <div class="row g-4">
+    <div class="col-md-7">
+      <p class="fw-medium mb-2">Monthly trend</p>
+      <div style="height: 260px">
+        <canvas
+          baseChart
+          [data]="monthlyTrendData"
+          [options]="barChartOptions"
+          type="bar"
+        >
+        </canvas>
+      </div>
+    </div>
+
+    <div class="col-md-5">
+      <p class="fw-medium mb-2">Expense breakdown</p>
+      <div style="height: 260px">
+        <canvas
+          baseChart
+          [data]="expenseBreakdownData"
+          [options]="doughnutOptions"
+          type="doughnut"
+        >
+        </canvas>
+      </div>
+    </div>
+  </div>
+</div>

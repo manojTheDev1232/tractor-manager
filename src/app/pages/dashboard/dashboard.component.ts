@@ -17,6 +17,7 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
 import { RouterOutlet } from '@angular/router';
 import { JobFormComponent } from '../job-form/job-form.component';
 import { JobsListComponent } from '../jobs-list/jobs-list.component';
+import { ReportsComponent } from '../reports/reports.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -26,8 +27,10 @@ import { JobsListComponent } from '../jobs-list/jobs-list.component';
     RouterOutlet,
     JobFormComponent,
     JobsListComponent,
+    ReportsComponent,
   ],
   standalone: true,
+  styleUrl: './dashboard.component.scss',
   templateUrl: './dashboard.component.html',
 })
 export class DashboardComponent {
