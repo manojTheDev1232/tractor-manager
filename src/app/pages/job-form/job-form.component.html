@@ -1,61 +1,124 @@
-<div class="container">
-  <h5>Add Plowing Job</h5>
-  <form action="">
-    <div class="row">
-      <div class="col">
-        <label class="form-label" for="">Farmer name</label>
-        <select class="form-select" name="" id="">
-          <option value="">Select Farmer name</option>
-          <option *ngFor="let farmer of farmerList" value="">
-            {{ farmer.name }}
-          </option>
-        </select>
-      </div>
+<div
+  class="dialog-overlay"
+  *ngIf="isVisible()"
+  (click)="onOverlayClick($event)"
+>
+  <div class="dialog-box">
+    <!-- Header -->
+    <div
+      class="d-flex align-items-center justify-content-between px-4 pt-4 pb-2"
+    >
+      <h5 class="fw-semibold mb-0">
+        <i class="ti ti-tractor text-success me-2"></i>
+        {{ isEditMode() ? "Edit job" : "Add plowing job" }}
+      </h5>
+      <button type="button" class="btn-close" (click)="close()"></button>
     </div>
 
-    <div class="row">
-      <div class="col-6">
-        <label class="form-label">Field / acres</label>
-        <input class="form-control" type="text" placeholder="e.g.4" />
-      </div>
-      <div class="col">
-        <label class="form-label">Rate per acre (&#8377;)</label>
-        <input class="form-control" type="text" placeholder="e.g.4" />
-      </div>
+    <hr class="my-0 mx-4" />
+
+    <!-- Body -->
+    <div class="px-4 py-3">
+      <form [formGroup]="jobForm">
+        <!-- Farmer -->
+        <div class="mb-3">
+          <label class="form-label small text-muted">Farmer name</label>
+          <select
+            class="form-select"
+            formControlName="farmerId"
+            [class.is-invalid]="isInvalid('farmerId')"
+          >
+            <option [value]="null" disabled>Select farmer</option>
+            <option *ngFor="let f of farmers()" [value]="f.id">
+              {{ f.name }}
+            </option>
+          </select>
+          <div class="invalid-feedback">Please select a farmer.</div>
+        </div>
+
+        <!-- Acres + Rate -->
+        <div class="row g-2 mb-3">
+          <div class="col-6">
+            <label class="form-label small text-muted">Acres</label>
+            <input
+              type="number"
+              class="form-control"
+              placeholder="e.g. 4"
+              formControlName="acres"
+              [class.is-invalid]="isInvalid('acres')"
+            />
+            <div class="invalid-feedback">Enter valid acres.</div>
+          </div>
+          <div class="col-6">
+            <label class="form-label small text-muted">Rate per acre (₹)</label>
+            <input
+              type="number"
+              class="form-control"
+              placeholder="e.g. 800"
+              formControlName="ratePerAcre"
+              [class.is-invalid]="isInvalid('ratePerAcre')"
+            />
+            <div class="invalid-feedback">Enter valid rate.</div>
+          </div>
+        </div>
+
+        <!-- Total amount -->
+        <div class="mb-3">
+          <label class="form-label small text-muted">Total amount (₹)</label>
+          <div
+            class="form-control bg-light fw-semibold"
+            [class.text-success]="totalAmount() > 0"
+            [class.text-muted]="totalAmount() === 0"
+          >
+            {{ totalAmount() > 0 ? "₹" + totalAmount() : "—" }}
+          </div>
+        </div>
+
+        <!-- Date + Status -->
+        <div class="row g-2 mb-3">
+          <div class="col-6">
+            <label class="form-label small text-muted">Date</label>
+            <input
+              type="date"
+              class="form-control"
+              formControlName="date"
+              [class.is-invalid]="isInvalid('date')"
+            />
+            <div class="invalid-feedback">Please select a date.</div>
+          </div>
+          <div class="col-6">
+            <label class="form-label small text-muted">Payment status</label>
+            <select class="form-select" formControlName="status">
+              <option value="Pending">Pending</option>
+              <option value="Paid">Paid</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Notes -->
+        <div class="mb-2">
+          <label class="form-label small text-muted">Notes (optional)</label>
+          <textarea
+            class="form-control"
+            rows="2"
+            placeholder="Any remarks..."
+            formControlName="notes"
+          ></textarea>
+        </div>
+      </form>
     </div>
-    <div class="row">
-      <div class="col">
-        <label class="form-label">Total Amount (&#8377;)</label>
-        <input class="form-control" type="text" placeholder="Auto calculated" />
-      </div>
+
+    <hr class="my-0 mx-4" />
+
+    <!-- Footer -->
+    <div class="d-flex justify-content-end gap-2 px-4 py-3">
+      <button type="button" class="btn btn-outline-secondary" (click)="close()">
+        Cancel
+      </button>
+      <button type="button" class="btn btn-success" (click)="onSubmit()">
+        <i class="ti ti-check me-1"></i>
+        {{ isEditMode() ? "Update job" : "Save job" }}
+      </button>
     </div>
-    <div class="row">
-      <div class="col-6">
-        <label class="form-label">Date</label>
-        <input
-          class="form-control"
-          [value]="currentDate | date: 'yyyy-MM-dd'"
-          type="date"
-          placeholder="e.g.4"
-        />
-      </div>
-      <div class="col-6">
-        <label class="form-label">Payment Status</label>
-        <select class="form-select">
-          <option>Pending</option>
-          <option>Paid</option>
-        </select>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col">
-        <label for="" class="form-label">Notes (Optional)</label>
-        <textarea class="form-control" placeholder="Add remarks..."></textarea>
-      </div>
-    </div>
-    <div class="d-flex justify-content-between align-items-center mt-2">
-      <button class="btn btn-success">Save job</button>
-      <button class="btn btn-secondary">Cancel</button>
-    </div>
-  </form>
+  </div>
 </div>

@@ -1,14 +1,15 @@
-<div class="container">
-  <div class="d-flex justify-content-between gap-2">
-    <div class="col-8 rounded p-3">
-      <div class="d-flex justify-content-between align-items-center">
-        <h5>Plowing jobs</h5>
-        <button class="btn btn-outline-dark">
+<div class="container-fluid p-3">
+  <div class="row g-4">
+    <div class="border rounded p-3">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="mb-0">Plowing Jobs</h5>
+        <button class="btn btn-outline-dark" (click)="jobFormRef.open()">
           <i class="ti ti-plus"></i>Add Job
         </button>
       </div>
-      <div class="mt-2">
-        <form class="d-flex flex-column gap-2">
+
+      <form class="row gap-2">
+        <div class="col-12 col-md-4 position-relative">
           <input
             class="form-control"
             type="text"
@@ -16,6 +17,18 @@
             [value]="searchTerm()"
             (input)="onSearchChange($any($event.target).value)"
           />
+          <button
+            *ngIf="searchTerm()"
+            type="button"
+            class="btn-clear-search position-absolute top-50 end-0 translate-middle-y me-2 p-3 border-0 bg-transparent"
+            title="Clear search"
+            (click)="clearSearch()"
+          >
+            <i class="ti ti-x text-secondary"></i>
+          </button>
+        </div>
+
+        <div class="col-6 col-md-4">
           <select
             class="form-select"
             [value]="statusFilter()"
@@ -25,100 +38,121 @@
             <option value="Paid">Paid</option>
             <option value="Pending">Pending</option>
           </select>
+        </div>
+
+        <div class="col-6 col-md-4 d-flex gap-1">
           <input
             type="month"
             class="form-control"
             style="max-width: 160px"
             [value]="monthFilter()"
+            [disabled]="!monthFilterEnabled()"
             (change)="onMonthChange($any($event.target).value)"
           />
-        </form>
-      </div>
-      <div class="table-responsive mt-4" style="min-height: 300px">
-        <table class="table align-middle">
-          <thead>
-            <tr class="">
-              <th>Farmer</th>
-              <th>Acres</th>
-              <th>Date</th>
-              <th>Amount</th>
-              <th>Status</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let job of pagedJobs()">
-              <td class="fw-medium">{{ job.farmerName }}</td>
-              <td>{{ job.acres }}</td>
-              <td>{{ job.date | date: "d MMM" }}</td>
-              <td class="text-success fw-medium">
-                +&#8377;{{ job.amount | number }}
-              </td>
-              <td>
-                <span
-                  class="badge rounded-pill"
-                  [class.text-bg-success]="job.status === 'Paid'"
-                  [class.text-bg-warning]="job.status === 'Pending'"
-                  style="cursor: pointer"
-                  title="Click to toggle status"
-                  (click)="togglePaid(job)"
-                >
-                  {{ job.status }}
-                </span>
-              </td>
-              <td class="text-end">
-                <a
-                  [routerLink]="['/jobs/edit', job.id]"
-                  class="me-2 text-decoration-none"
-                >
-                  <i class="ti ti-edit"></i>
-                </a>
-                <i
-                  class="ti ti-trash text-danger"
-                  style="cursor: pointer"
-                  (click)="deleteJob(job.id)"
-                ></i>
-              </td>
-            </tr>
-            <tr *ngIf="pagedJobs().length === 0">
-              <td colspan="6" class="text-center text-muted py-4">
-                No jobs Found
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div
-        class="d-flex justify-content-between align-items-center mt-2 small text-muted"
-      >
-        <span>
-          Showing{{ (currentPage() - 1) * pageSize + 1 }}-{{
-            Math.min(currentPage() * pageSize, filteredJobs().length)
-          }}
-          of {{ filteredJobs().length }}
-        </span>
-        <div class="d-flex gap-1">
           <button
-            class="btn btn-sm btn-outline-secondary"
-            [disabled]="currentPage() === 1"
-            (click)="prevPage()"
+            type="button"
+            class="btn btn-sm"
+            [class.btn-success]="monthFilterEnabled()"
+            [class.btn-outline-secondary]="!monthFilterEnabled()"
+            title="Toggle month filter"
+            (click)="toggleMonthFilter()"
           >
-            Prev
-          </button>
-          <button
-            class="btn btn-sm btn-outline-secondary"
-            [disabled]="currentPage() === totalPages()"
-            (click)="nextPage()"
-          >
-            Next
+            <i class="ti ti-calendar-check" *ngIf="monthFilterEnabled()"></i>
+            <i class="ti ti-calendar-off" *ngIf="!monthFilterEnabled()"></i>
           </button>
         </div>
+      </form>
+    </div>
+    <div class="table-responsive mt-3" style="min-height: 300px">
+      <table class="table align-middle">
+        <thead>
+          <tr class="">
+            <th>Farmer</th>
+            <th>Acres</th>
+            <th>Date</th>
+            <th>Amount</th>
+            <th>Status</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let job of pagedJobs()">
+            <td class="fw-medium">{{ job.farmerName }}</td>
+            <td>{{ job.acres }}</td>
+            <td>{{ job.date | date: "d MMM" }}</td>
+            <td class="text-success fw-medium">
+              +&#8377;{{ job.amount | number }}
+            </td>
+            <td>
+              <span
+                class="badge rounded-pill"
+                [class.text-bg-success]="job.status === 'Paid'"
+                [class.text-bg-warning]="job.status === 'Pending'"
+                style="cursor: pointer"
+                title="Click to toggle status"
+                (click)="togglePaid(job)"
+              >
+                {{ job.status }}
+              </span>
+            </td>
+            <td class="text-end">
+              <a
+                [routerLink]="['/jobs/edit', job.id]"
+                class="me-2 text-decoration-none"
+              >
+                <i
+                  class="ti ti-edit"
+                  style="cursor: pointer"
+                  (click)="jobFormRef.open(job)"
+                ></i>
+              </a>
+              <i
+                class="ti ti-trash text-danger"
+                style="cursor: pointer"
+                (click)="deleteJob(job.id)"
+              ></i>
+            </td>
+          </tr>
+          <tr *ngIf="pagedJobs().length === 0">
+            <td colspan="6" class="text-center text-muted py-4">
+              No jobs Found
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div
+      class="d-flex justify-content-between align-items-center mt-2 small text-muted"
+    >
+      <span>
+        Showing{{ (currentPage() - 1) * pageSize + 1 }}-{{
+          Math.min(currentPage() * pageSize, filteredJobs().length)
+        }}
+        of {{ filteredJobs().length }}
+      </span>
+      <div class="d-flex gap-1">
+        <button
+          class="btn btn-sm btn-outline-secondary"
+          [disabled]="currentPage() === 1"
+          (click)="prevPage()"
+        >
+          Prev
+        </button>
+        <button
+          class="btn btn-sm btn-outline-secondary"
+          [disabled]="currentPage() === totalPages()"
+          (click)="nextPage()"
+        >
+          Next
+        </button>
       </div>
     </div>
+  </div>
 
-    <!-- right side -->
+  <!-- right side -->
+  <div class="col-12 col-lg-4">
     <div class="col-4 border rounded p-3">
-      <app-job-form></app-job-form>
+      <app-job-form #jobFormRef></app-job-form>
     </div>
   </div>
 </div>

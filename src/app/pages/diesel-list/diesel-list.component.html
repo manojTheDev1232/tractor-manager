@@ -13,8 +13,30 @@
             class="form-control"
             type="text"
             placeholder="Search vendor.."
+            [value]="searchText()"
+            (input)="onSearchChanged($any($event.target).value)"
           />
-          <input class="form-control" type="month" name="" id="" />
+          <div class="d-flex gap-1">
+            <input
+              type="month"
+              class="form-control"
+              style="max-width: 160px"
+              [value]="monthFilter()"
+              [disabled]="!monthFilterEnabled()"
+              (change)="onMonthChange($any($event.target).value)"
+            />
+            <button
+              type="button"
+              class="btn btn-sm"
+              [class.btn-success]="monthFilterEnabled()"
+              [class.btn-outline-secondary]="!monthFilterEnabled()"
+              title="Toggle month filter"
+              (click)="toggleMonthFilter()"
+            >
+              <i class="ti ti-calendar-check" *ngIf="monthFilterEnabled()"></i>
+              <i class="ti ti-calendar-off" *ngIf="!monthFilterEnabled()"></i>
+            </button>
+          </div>
         </form>
       </div>
       <div class="table-responsive mt-4" style="min-height: 300px">

@@ -1,6 +1,6 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { DatePipe, DecimalPipe, NgForOf, NgIf } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { JobService } from '../../services/job.service';
 import { Job } from '../../models/job.model';
 import { JobFormComponent } from '../job-form/job-form.component';
@@ -19,22 +19,44 @@ export class JobsListComponent {
   allJobs = this.jobService.jobs;
   searchTerm = signal('');
   statusFilter = signal<'All' | 'Paid' | 'Pending'>('All');
-  currentDate = new Date();
-  currentMonthYear = `${this.currentDate.getFullYear()}-${(this.currentDate.getMonth() + 1).toString().padStart(2, '0')}`;
-  monthFilter = signal<string>(this.currentMonthYear);
+  // currentDate = new Date();
+  // currentMonthYear = `${this.currentDate.getFullYear()}-${(this.currentDate.getMonth() + 1).toString().padStart(2, '0')}`;
+  // gets current month in 'YYYY-MM' format e.g. '2026-06'
+  monthFilter = signal(new Date().toISOString().slice(0, 7));
 
   currentPage = signal(1);
-  pageSize = 3;
+  pageSize = 5;
+
+  monthFilterEnabled = signal(false);
+
+  private route = inject(ActivatedRoute);
+
+  constructor() {
+    // Pre-fill search from query param, e.g. /jobs?farmer=Ramesh Patil
+    this.route.queryParams.subscribe((params) => {
+      if (params['farmer']) {
+        this.searchTerm.set(params['farmer']);
+        this.currentPage.set(1);
+      }
+    });
+  }
+
+  toggleMonthFilter(): void {
+    this.monthFilterEnabled.update((enabled) => !enabled);
+    this.currentPage.set(1);
+  }
 
   filteredJobs = computed(() => {
-    const search = this.searchTerm().toLowerCase();
+    const search = this.searchTerm().toLowerCase().trim();
     const status = this.statusFilter();
     const month = this.monthFilter();
+    const monthEnabled = this.monthFilterEnabled();
 
     return this.allJobs().filter((job) => {
-      const matchesSearch = job.farmerName.toLowerCase().includes(search);
+      const matchesSearch =
+        !search || job.farmerName.toLowerCase().includes(search);
       const matchesStatus = status === 'All' || job.status === status;
-      const matchesMonth = !month || job.date.startsWith(month);
+      const matchesMonth = !monthEnabled || job.date.startsWith(month);
       return matchesSearch && matchesStatus && matchesMonth;
     });
   });
@@ -79,5 +101,9 @@ export class JobsListComponent {
     if (confirm('Delete this job entry?')) {
       this.jobService.delete(id);
     }
+  }
+  clearSearch(): void {
+    this.searchTerm.set('');
+    this.currentPage.set(1);
   }
 }

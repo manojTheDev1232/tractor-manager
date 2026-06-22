@@ -15,7 +15,9 @@
   <div *ngFor="let job of pendingJobs()" class="pending-row">
     <div>
       <p>{{ job.farmerName }}</p>
-      <p>Job on {{ job.date | date: "d MMM" }} &middot; {{ job.acres }}acres</p>
+      <p class="text-body-secondary small">
+        Job on {{ job.date | date: "d MMM" }} &middot; {{ job.acres }}acres
+      </p>
     </div>
     <div class="text-end">
       <p class="row-amount mb-1">&#8377;{{ job.amount | number }}</p>

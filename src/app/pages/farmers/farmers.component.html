@@ -5,11 +5,30 @@
       <i class="ti ti-plus"></i>Add farmer
     </button>
   </div>
-  <input class="form-control mt-2" type="text" placeholder="Search farmer..." />
+  <input
+    class="form-control mt-2"
+    [value]="searchTerm()"
+    (input)="onSearchChange($any($event.target).value)"
+    type="text"
+    placeholder="Search farmer..."
+  />
 
   <div class="row g-3 mt-2">
-    <div class="col-md-4" *ngFor="let farmer of farmers()">
-      <div class="farmer-card">
+    <div class="d-flex justify-content-center align-items-center">
+      <p class="form-label" *ngIf="filteredJobs().length === 0">
+        No record found
+      </p>
+    </div>
+
+    <div
+      class="col-md-4"
+      *ngFor="let farmer of !searchTerm ? farmers() : filteredJobs()"
+    >
+      <div
+        class="farmer-card"
+        style="cursor: pointer"
+        (click)="goToFarmerJobs(farmer.name)"
+      >
         <div class="d-flex align-items-center gap-2 mb-2">
           <div
             class="avatar"

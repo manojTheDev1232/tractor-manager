@@ -1,8 +1,83 @@
-<div class="sidebar text-dark p-3" style="width: 250px; min-height: 100vh">
+<button
+  class="btn btn-primary d-md-none m-3"
+  type="button"
+  data-bs-toggle="offcanvas"
+  data-bs-target="#sidebarMenu"
+>
+  <i class="ti ti-menu-2"></i> Menu
+</button>
+
+<div class="offcanvas-md offcanvas-start bg-light p-3" id="sidebarMenu">
+  <div class="offcanvas-header d-md-none">
+    <h5 class="offcanvas-title">Menu</h5>
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="offcanvas"
+      data-bs-target="#sidebarMenu"
+    ></button>
+  </div>
+
+  <div class="offcanvas-body d-flex flex-column h-100">
+    <div class="sidebar sidbar-content border rounded p-3 flex-grow-1">
+      <ul class="list-unstyled mb-0">
+        <li>
+          <a
+            class="d-flex align-items-center gap-2 p-2"
+            [routerLink]="'/dashboard'"
+            ><i class="ti ti-home"></i>Dashboard</a
+          >
+        </li>
+        <li>
+          <a class="d-flex align-items-center gap-2 p-2" [routerLink]="'/jobs'"
+            ><i class="ti ti-briefcase"></i>Jobs List</a
+          >
+        </li>
+        <li>
+          <a
+            class="d-flex align-items-center gap-2 p-2"
+            [routerLink]="'/diesel'"
+            ><i class="ti ti-gas-station"></i>Diesel List</a
+          >
+        </li>
+        <li>
+          <a
+            class="d-flex align-items-center gap-2 p-2"
+            [routerLink]="'/farmers'"
+            ><i class="ti ti-users"></i>Farmers</a
+          >
+        </li>
+        <li>
+          <a
+            class="d-flex align-items-center gap-2 p-2"
+            [routerLink]="'/reports'"
+            ><i class="ti ti-report"></i>Reports</a
+          >
+        </li>
+        <li>
+          <a
+            class="d-flex align-items-center gap-2 p-2"
+            [routerLink]="'/pending-payments'"
+            ><i class="ti ti-credit-card"></i>Pending Payments</a
+          >
+        </li>
+      </ul>
+    </div>
+    <button class="btn btn-outline-danger d-flex align-items-center gap-2 mt-3">
+      <i class="ti ti-logout"></i> Log Out
+    </button>
+  </div>
+</div>
+
+<!-- <div class="sidebar text-dark p-3" style="width: 250px; min-height: 100vh">
   <div class="sidebar-content border rounded p-3">
     <ul class="list-unstyled">
       <li>
-        <a class="d-flex align-items-center gap-2" [routerLink]="'/dashboard'">
+        <a
+          class="d-flex align-items-center gap-2"
+          [routerLink]="'/dashboard'"
+          routerLinkActive="active"
+        >
           <i class="ti ti-home"></i>Dashboard</a
         >
       </li>
@@ -40,15 +115,4 @@
     <i class="ti ti-logout d-flex"></i>
     <span>Log Out</span>
   </button>
-</div>
-
-<!-- <div class="sidebar bg-dark text-white p-3" style="width: 250px; min-height: 100vh">
-  <h4>My Dashboard</h4>
-  <ul class="list-unstyled"> <li><a routerLink="/dashboard">Dashboard</a></li>
-    <li><a routerLink="/jobs">Jobs List</a></li>
-    <li><a routerLink="/diesel">Diesel List</a></li>
-    <li><a routerLink="/farmers">Farmers</a></li>
-    <li><a routerLink="/reports">Reports</a></li>
-    <li><a routerLink="/pending-payments">Pending Payments</a></li>
-  </ul>
 </div> -->
