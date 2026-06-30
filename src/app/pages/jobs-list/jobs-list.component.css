@@ -1,0 +1,295 @@
+.page-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 1.5rem;
+}
+
+/* // ---- header ---- */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.page-date {
+  margin: 0 0 4px;
+  font-size: 12px;
+  color: #888;
+}
+.page-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+/* // ---- add buttons ---- */
+.btn-add {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 0.5px solid;
+  transition: opacity 0.15s;
+  &:hover { opacity: 0.85; }
+}
+.btn-add-green {
+  background: #eaf3de;
+  color: #27500a;
+  border-color: #97c459;
+}
+.btn-add-red {
+  background: #fcebeb;
+  color: #791f1f;
+  border-color: #f09595;
+}
+
+/* // ---- stat tiles ---- */
+.stat-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+.stat-tile {
+  background: #f5f5f3;
+  border-radius: 8px;
+  padding: 12px 16px;
+}
+.stat-label {
+  font-size: 11px;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0 0 4px;
+}
+.stat-value {
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0;
+}
+.income { color: #27500a; }
+.pending { color: #633806; }
+
+/* // ---- list card ---- */
+.list-card {
+  background: #fff;
+  border: 0.5px solid #e5e5e5;
+  border-radius: 12px;
+  padding: 16px;
+}
+
+/* // ---- filters ---- */
+.filter-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+.filter-input {
+  padding: 7px 12px;
+  border-radius: 8px;
+  border: 0.5px solid #e0e0e0;
+  font-size: 13px;
+  background: #fff;
+  color: #222;
+  outline: none;
+  &:focus { border-color: #97c459; }
+  &:disabled { background: #f5f5f3; cursor: not-allowed; }
+}
+.search-wrap {
+  position: relative;
+  flex: 1;
+  min-width: 160px;
+}
+.search-input { width: 100%; padding-left: 32px; box-sizing: border-box; }
+.search-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 15px;
+  color: #aaa;
+  pointer-events: none;
+}
+.clear-btn {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #aaa;
+  padding: 0;
+  font-size: 14px;
+  &:hover { color: #555; }
+}
+.filter-select { min-width: 130px; }
+.month-wrap { display: flex; gap: 6px; align-items: center; }
+.month-input { max-width: 150px; }
+
+/* // ---- column headers ---- */
+.col-header {
+  display: grid;
+  grid-template-columns: 2fr 0.5fr 0.7fr 1fr 0.8fr 0.5fr;
+  padding: 6px 10px;
+  margin-bottom: 4px;
+
+  span {
+    font-size: 11px;
+    color: #aaa;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 500;
+  }
+}
+
+/* // ---- job rows ---- */
+.job-row {
+  display: grid;
+  grid-template-columns: 2fr 0.5fr 0.7fr 1fr 0.8fr 0.5fr;
+  align-items: center;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 2px;
+  transition: background 0.1s;
+  &:hover { background: #f0f0ee !important; }
+}
+.row-alt { background: #f8f8f6; }
+
+/* // ---- cells ---- */
+.farmer-cell { display: flex; align-items: center; gap: 10px; }
+.farmer-name { font-size: 13px; font-weight: 500; }
+.cell-muted { font-size: 13px; color: #888; }
+.amount-income { font-size: 13px; font-weight: 500; color: #27500a; }
+
+/* // ---- avatar ---- */
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+.avatar-paid { background: #eaf3de; color: #27500a; }
+.avatar-pending { background: #faeeda; color: #633806; }
+
+/* // ---- status badge ---- */
+.status-badge {
+  display: inline-block;
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-weight: 500;
+  user-select: none;
+}
+.badge-paid { background: #eaf3de; color: #27500a; }
+.badge-pending { background: #faeeda; color: #633806; }
+
+/* // ---- action buttons ---- */
+.action-cell { display: flex; gap: 5px; justify-content: flex-end; }
+.icon-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  border: 0.5px solid #e0e0e0;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: #666;
+  cursor: pointer;
+  transition: background 0.1s;
+  &:hover { background: #f0f0ee; }
+}
+.icon-btn-danger {
+  color: #a32d2d;
+  border-color: #f09595;
+  &:hover { background: #fcebeb; }
+}
+.month-toggle {
+  width: 34px;
+  height: 34px;
+  font-size: 16px;
+  &.active { background: #eaf3de; color: #27500a; border-color: #97c459; }
+}
+
+/* // ---- empty state ---- */
+.empty-state {
+  text-align: center;
+  padding: 40px 0;
+  color: #aaa;
+  i { font-size: 32px; display: block; margin-bottom: 8px; }
+  p { margin: 0; font-size: 14px; }
+}
+
+/* // ---- pagination ---- */
+.pagination-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 0.5px solid #eee;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.pagination-info { font-size: 12px; color: #888; }
+.pagination-btns { display: flex; gap: 4px; align-items: center; }
+.pg-btn {
+  padding: 5px 12px;
+  border-radius: 6px;
+  border: 0.5px solid #e0e0e0;
+  background: #fff;
+  font-size: 12px;
+  color: #444;
+  cursor: pointer;
+  &:disabled { opacity: 0.4; cursor: not-allowed; }
+  &:hover:not(:disabled) { background: #f5f5f3; }
+}
+.pg-num {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  border: none;
+  background: none;
+  font-size: 12px;
+  color: #888;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &:hover { background: #f0f0ee; }
+}
+.pg-num-active {
+  background: #eaf3de !important;
+  color: #27500a !important;
+  font-weight: 500;
+}
+
+/* // ---- responsive ---- */
+@media (max-width: 768px) {
+  .stat-row { grid-template-columns: 1fr 1fr; }
+  .col-header, .job-row {
+    grid-template-columns: 2fr 0.8fr 1fr 0.8fr 0.5fr;
+  }
+  .hide-sm { display: none; }
+  .page-container { padding: 1rem; }
+}
+
+@media (max-width: 480px) {
+  .stat-row { grid-template-columns: 1fr 1fr; }
+  .col-header, .job-row {
+    grid-template-columns: 1.5fr 1fr 0.8fr 0.5fr;
+  }
+}

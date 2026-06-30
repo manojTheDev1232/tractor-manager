@@ -1,29 +1,111 @@
-<div class="card border-0 shadow-sm p-3 p-md-4">
-  <h3 class="mb-3">Pending Payments</h3>
-  <div class="tile tile-warning mb-3" style="max-width: 280px">
-    <p class="tile-label">Total pending</p>
-    <h3 class="tile-value">&#8377;{{ totalPending() | number }}</h3>
-  </div>
-  <div *ngIf="pendingJobs().length === 0" class="text-center text-muted py-5">
-    <i
-      class="ti ti-circlre-check"
-      style="font-size: 32px; color: #5a9216"
-      ;
-    ></i>
-    <p class="mt-2 mt-0">No pending payments. All caught up!</p>
-  </div>
-  <div *ngFor="let job of pendingJobs()" class="pending-row">
+<div class="page-container">
+  <!-- header -->
+  <div class="page-header">
     <div>
-      <p>{{ job.farmerName }}</p>
-      <p class="text-body-secondary small">
-        Job on {{ job.date | date: "d MMM" }} &middot; {{ job.acres }}acres
-      </p>
+      <p class="page-date">Outstanding collections</p>
+      <h4 class="page-title">Pending payments</h4>
     </div>
-    <div class="text-end">
-      <p class="row-amount mb-1">&#8377;{{ job.amount | number }}</p>
-      <button class="btn btn-sm btn-success" (click)="markPaid(job)">
-        Mark paid
-      </button>
+    <span class="farmers-badge">{{ pendingJobs().length }} farmers due</span>
+  </div>
+
+  <!-- stat tiles -->
+  <div class="stat-row">
+    <div class="stat-tile stat-warning">
+      <p class="stat-label">Total pending</p>
+      <p class="stat-value">₹{{ totalPending() | number }}</p>
+      <p class="stat-sub">Collect from {{ pendingJobs().length }} farmers</p>
+    </div>
+    <div class="stat-tile stat-danger">
+      <p class="stat-label">Overdue (30+ days)</p>
+      <p class="stat-value">₹{{ overdueAmount() | number }}</p>
+      <p class="stat-sub">{{ overdueJobs().length }} farmers overdue</p>
+    </div>
+    <div class="stat-tile stat-neutral">
+      <p class="stat-label">This month</p>
+      <p class="stat-value">₹{{ thisMonthAmount() | number }}</p>
+      <p class="stat-sub">{{ thisMonthJobs().length }} recent jobs</p>
+    </div>
+  </div>
+
+  <!-- list card -->
+  <div class="list-card">
+    <div class="card-header-row">
+      <p class="card-heading">All pending dues</p>
+      <span class="sort-badge">Oldest first</span>
+    </div>
+
+    <!-- empty state -->
+    <div *ngIf="pendingJobs().length === 0" class="empty-state">
+      <i class="ti ti-circle-check"></i>
+      <p>All payments collected!</p>
+      <small>No pending dues right now.</small>
+    </div>
+
+    <!-- pending rows -->
+    <div
+      *ngFor="let job of pendingJobs(); let odd = odd"
+      class="pending-row"
+      [class.row-alt]="odd"
+      [class.row-overdue]="isOverdue(job.date)"
+    >
+      <div
+        class="pp-avatar"
+        [class.avatar-warning]="!isOverdue(job.date)"
+        [class.avatar-danger]="isOverdue(job.date)"
+      >
+        {{ getInitials(job.farmerName) }}
+      </div>
+
+      <div class="row-content">
+        <div class="row-top">
+          <span class="farmer-name">{{ job.farmerName }}</span>
+          <span
+            class="days-badge"
+            [class.badge-warning]="!isOverdue(job.date)"
+            [class.badge-danger]="isOverdue(job.date)"
+          >
+            {{ getDaysAgo(job.date) }} days ago
+          </span>
+        </div>
+        <p class="row-sub">
+          Job on {{ job.date | date: "d MMM" }} · {{ job.acres }} acres
+        </p>
+        <div class="bar-row">
+          <div class="bar-bg">
+            <div
+              class="bar-fill"
+              [style.width]="getBarWidth(job.amount)"
+              [class.bar-overdue]="isOverdue(job.date)"
+            ></div>
+          </div>
+          <span class="bar-label" [class.text-danger]="isOverdue(job.date)">
+            <ng-container *ngIf="!isOverdue(job.date)">
+              ₹{{ job.amount | number }} of ₹{{ totalPending() | number }}
+            </ng-container>
+            <ng-container *ngIf="isOverdue(job.date)">
+              Overdue — follow up needed
+            </ng-container>
+          </span>
+        </div>
+      </div>
+
+      <div class="row-right">
+        <p
+          class="row-amount"
+          [class.amount-warning]="!isOverdue(job.date)"
+          [class.amount-danger]="isOverdue(job.date)"
+        >
+          ₹{{ job.amount | number }}
+        </p>
+        <button
+          type="button"
+          class="mark-btn"
+          [class.mark-btn-danger]="isOverdue(job.date)"
+          (click)="markPaid(job)"
+        >
+          <i class="ti ti-check"></i> Mark paid
+        </button>
+      </div>
     </div>
   </div>
 </div>

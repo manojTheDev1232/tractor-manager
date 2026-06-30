@@ -1,60 +1,134 @@
-<div class="container">
-  <div class="d-flex justify-content-between align-items-center">
-    <h5>Farmer Name</h5>
-    <button class="btn btn-outline-dark">
-      <i class="ti ti-plus"></i>Add farmer
-    </button>
+<div class="page-container">
+  <!-- header -->
+  <div class="page-header">
+    <div>
+      <p class="page-date">All farmers</p>
+      <h4 class="page-title">Farmers</h4>
+    </div>
+    <span class="farmers-count-badge">{{ totalFarmers() }} farmers</span>
   </div>
-  <input
-    class="form-control mt-2"
-    [value]="searchTerm()"
-    (input)="onSearchChange($any($event.target).value)"
-    type="text"
-    placeholder="Search farmer..."
-  />
 
-  <div class="row g-3 mt-2">
-    <div class="d-flex justify-content-center align-items-center">
-      <p class="form-label" *ngIf="filteredJobs().length === 0">
-        No record found
-      </p>
+  <!-- stat tiles -->
+  <div class="stat-row">
+    <div class="stat-tile">
+      <p class="stat-label">Total farmers</p>
+      <p class="stat-value">{{ totalFarmers() }}</p>
+    </div>
+    <div class="stat-tile stat-success">
+      <p class="stat-label">All paid</p>
+      <p class="stat-value">{{ allPaidCount() }}</p>
+    </div>
+    <div class="stat-tile stat-warning">
+      <p class="stat-label">Total pending</p>
+      <p class="stat-value">₹{{ totalPending() | number }}</p>
+    </div>
+    <div class="stat-tile">
+      <p class="stat-label">Villages</p>
+      <p class="stat-value">{{ villages().length - 1 }}</p>
+    </div>
+  </div>
+
+  <!-- filters -->
+  <div class="filter-row">
+    <!-- search -->
+    <div class="search-wrap">
+      <i class="ti ti-search search-icon"></i>
+      <input
+        type="text"
+        class="filter-input search-input"
+        placeholder="Search farmer..."
+        [value]="searchTerm()"
+        (input)="onSearchChange($any($event.target).value)"
+      />
+      <button
+        *ngIf="searchTerm()"
+        type="button"
+        class="clear-btn"
+        (click)="clearSearch()"
+        title="Clear search"
+      >
+        <i class="ti ti-x"></i>
+      </button>
     </div>
 
-    <div
-      class="col-md-4"
-      *ngFor="let farmer of !searchTerm ? farmers() : filteredJobs()"
-    >
-      <div
-        class="farmer-card"
-        style="cursor: pointer"
-        (click)="goToFarmerJobs(farmer.name)"
+    <!-- village filter -->
+    <div class="village-filter-wrap">
+      <i class="ti ti-map-pin village-icon"></i>
+      <select
+        class="filter-input village-select"
+        [value]="villageFilter()"
+        (change)="onVillageChange($any($event.target).value)"
       >
-        <div class="d-flex align-items-center gap-2 mb-2">
-          <div
-            class="avatar"
-            [class.avatar-success]="farmer.pendingAmount === 0"
-            [class.avatar-warning]="farmer.pendingAmount > 0"
-          >
-            {{ getInitials(farmer.name) }}
-          </div>
-          <div>
-            <p class="farmer-name mb-0">{{ farmer.name }}</p>
-            <p class="farmer-phone mb-0">{{ farmer.phone }}</p>
-          </div>
+        <option *ngFor="let v of villages()" [value]="v">
+          {{ v === "All" ? "All villages" : v }}
+        </option>
+      </select>
+    </div>
+
+    <!-- active village badge -->
+    <div *ngIf="villageFilter() !== 'All'" class="active-filter-badge">
+      <i class="ti ti-map-pin"></i>
+      {{ villageFilter() }}
+      <button
+        type="button"
+        class="remove-filter"
+        (click)="onVillageChange('All')"
+      >
+        <i class="ti ti-x"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- farmer cards grid -->
+  <div class="farmers-grid" *ngIf="farmers().length > 0">
+    <div
+      *ngFor="let farmer of farmers()"
+      class="farmer-card"
+      (click)="goToFarmerJobs(farmer.name)"
+    >
+      <div class="card-top">
+        <div
+          class="farmer-avatar"
+          [class.avatar-paid]="farmer.pendingAmount === 0"
+          [class.avatar-pending]="farmer.pendingAmount > 0"
+        >
+          {{ getInitials(farmer.name) }}
         </div>
-        <div class="d-flex justify-content-between">
-          <span class="text-muted small">{{ farmer.totalJobs }} jobs</span>
-          <span
-            [class]="farmer.pendingAmount === 0 ? 'status-paid' : 'status-due'"
-          >
-            {{
-              farmer.pendingAmount === 0
-                ? "All paid"
-                : "₹" + (farmer.pendingAmount | number) + " due"
-            }}
-          </span>
+        <div class="farmer-info">
+          <p class="farmer-name">{{ farmer.name }}</p>
+          <p class="farmer-phone">
+            <i class="ti ti-phone"></i> {{ farmer.phone }}
+          </p>
         </div>
       </div>
+
+      <div class="village-tag">
+        <i class="ti ti-map-pin"></i> {{ farmer.village }}
+      </div>
+
+      <div class="card-bottom">
+        <span class="jobs-count">
+          <i class="ti ti-tractor"></i> {{ jobsCount()[farmer.id] || 0 }} jobs
+        </span>
+        <span
+          class="payment-status"
+          [class.status-paid]="farmer.pendingAmount === 0"
+          [class.status-pending]="farmer.pendingAmount > 0"
+        >
+          {{
+            farmer.pendingAmount === 0
+              ? "All paid"
+              : "₹" + (farmer.pendingAmount | number) + " due"
+          }}
+        </span>
+      </div>
     </div>
+  </div>
+
+  <!-- empty state -->
+  <div *ngIf="farmers().length === 0" class="empty-state">
+    <i class="ti ti-users-minus"></i>
+    <p>No farmers found</p>
+    <small>Try changing the search or village filter</small>
   </div>
 </div>

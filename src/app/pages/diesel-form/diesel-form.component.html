@@ -1,50 +1,120 @@
-<div class="container">
-  <h5>Add Diesal Purchase</h5>
-  <form action="">
-    <div class="row">
-      <div class="col">
-        <label class="form-label" for="">Vendor /pump name</label>
-        <select class="form-select" name="" id="">
-          <option value="">Select vendor</option>
-          <option value="">ramesh</option>
-          <option value="">mahesh</option>
-        </select>
-      </div>
+<!-- diesel-form.component.html -->
+<div
+  class="dialog-overlay"
+  *ngIf="isVisible()"
+  (click)="onOverlayClick($event)"
+>
+  <div class="dialog-box">
+    <!-- Header -->
+    <div
+      class="d-flex align-items-center justify-content-between px-4 pt-4 pb-2"
+    >
+      <h5 class="fw-semibold mb-0">
+        <i class="ti ti-gas-station text-danger me-2"></i>
+        {{ isEditMode() ? "Edit purchase" : "Add diesel purchase" }}
+      </h5>
+      <button type="button" class="btn-close" (click)="close()"></button>
     </div>
 
-    <div class="row">
-      <div class="col-6">
-        <label class="form-label">Liters</label>
-        <input class="form-control" type="text" placeholder="e.g.40" />
-      </div>
-      <div class="col">
-        <label class="form-label">Rate per liter (&#8377;)</label>
-        <input class="form-control" type="text" placeholder="e.g.95" />
-      </div>
+    <hr class="my-0 mx-4" />
+
+    <!-- Body -->
+    <div class="px-4 py-3">
+      <form [formGroup]="dieselForm">
+        <!-- Vendor -->
+        <div class="mb-3">
+          <label class="form-label small text-muted">Vendor / pump name</label>
+          <select
+            class="form-select"
+            formControlName="vendorId"
+            [class.is-invalid]="isInvalid('vendorId')"
+          >
+            <option [value]="null" disabled>Select vendor</option>
+            <option *ngFor="let v of vendors()" [value]="v.id">
+              {{ v.name }}
+            </option>
+          </select>
+          <div class="invalid-feedback">Please select a vendor.</div>
+        </div>
+
+        <!-- Liters + Rate -->
+        <div class="row g-2 mb-3">
+          <div class="col-6">
+            <label class="form-label small text-muted">Liters</label>
+            <input
+              type="number"
+              class="form-control"
+              placeholder="e.g. 40"
+              formControlName="liters"
+              [class.is-invalid]="isInvalid('liters')"
+            />
+            <div class="invalid-feedback">Enter valid liters.</div>
+          </div>
+          <div class="col-6">
+            <label class="form-label small text-muted"
+              >Rate per liter (₹)</label
+            >
+            <input
+              type="number"
+              class="form-control"
+              placeholder="e.g. 95"
+              formControlName="ratePerLiter"
+              [class.is-invalid]="isInvalid('ratePerLiter')"
+            />
+            <div class="invalid-feedback">Enter valid rate.</div>
+          </div>
+        </div>
+
+        <!-- Total cost -->
+        <div class="mb-3">
+          <label class="form-label small text-muted">Total cost (₹)</label>
+          <div
+            class="form-control bg-light fw-semibold"
+            [class.text-danger]="totalAmount() > 0"
+            [class.text-muted]="totalAmount() === 0"
+          >
+            {{ totalAmount() > 0 ? "₹" + totalAmount() : "—" }}
+          </div>
+        </div>
+
+        <!-- Date -->
+        <div class="mb-3">
+          <label class="form-label small text-muted">Date</label>
+          <input
+            type="date"
+            class="form-control"
+            formControlName="date"
+            [class.is-invalid]="isInvalid('date')"
+          />
+          <div class="invalid-feedback">Please select a date.</div>
+        </div>
+
+        <!-- Odometer -->
+        <div class="mb-2">
+          <label class="form-label small text-muted">
+            Odometer / hour meter reading (optional)
+          </label>
+          <input
+            type="number"
+            class="form-control"
+            placeholder="e.g. 1024"
+            formControlName="odometerReading"
+          />
+        </div>
+      </form>
     </div>
-    <div class="row">
-      <div class="col">
-        <label class="form-label">Total cost (&#8377;)</label>
-        <input class="form-control" type="text" placeholder="Auto calculated" />
-      </div>
+
+    <hr class="my-0 mx-4" />
+
+    <!-- Footer -->
+    <div class="d-flex justify-content-end gap-2 px-4 py-3">
+      <button type="button" class="btn btn-outline-secondary" (click)="close()">
+        Cancel
+      </button>
+      <button type="button" class="btn btn-success" (click)="onSubmit()">
+        <i class="ti ti-check me-1"></i>
+        {{ isEditMode() ? "Update purchase" : "Save purchase" }}
+      </button>
     </div>
-    <div class="row">
-      <div class="col">
-        <label class="form-label">Date</label>
-        <input class="form-control" type="date" placeholder="e.g.4" />
-      </div>
-    </div>
-    <div class="row">
-      <div class="col">
-        <label for="" class="form-label"
-          >Odometer / hour meter reading (optional)</label
-        >
-        <input class="form-control" type="number" />
-      </div>
-    </div>
-    <div class="d-flex justify-content-between align-items-center mt-2">
-      <button class="btn btn-success">Save purchase</button>
-      <button class="btn btn-secondary">Cancel</button>
-    </div>
-  </form>
+  </div>
 </div>

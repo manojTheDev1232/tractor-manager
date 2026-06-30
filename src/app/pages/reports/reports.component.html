@@ -1,8 +1,12 @@
 <div class="card border-0 shadow-sm p-3 p-md-4">
+  <!-- header with filters + export only -->
   <div
-    class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2"
+    class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2"
   >
-    <!-- <h3 class="mb-0">Reports</h3> -->
+    <div>
+      <p class="text-muted small mb-1">Financial summary</p>
+      <h4 class="mb-0">Reports & analytics</h4>
+    </div>
     <div class="d-flex gap-2 flex-wrap">
       <select
         class="form-select form-select-sm"
@@ -13,70 +17,208 @@
         <option value="thisMonth">This month</option>
         <option value="last3">Last 3 months</option>
         <option value="thisYear">This year</option>
-        <option value="custom">Custom range</option>
       </select>
-      <button class="btn btn-sm btn-outline-secondary" (click)="exportPdf()">
-        <i class="ti ti-download"></i> Export PDF
+      <button
+        type="button"
+        class="btn btn-sm btn-outline-secondary"
+        (click)="exportPdf()"
+      >
+        <i class="ti ti-download me-1"></i>PDF
       </button>
-      <button class="btn btn-sm btn-outline-secondary" (click)="exportExcel()">
-        <i class="ti ti-download"></i> Export Excel
+      <button
+        type="button"
+        class="btn btn-sm btn-outline-secondary"
+        (click)="exportExcel()"
+      >
+        <i class="ti ti-table-export me-1"></i>Excel
       </button>
     </div>
   </div>
 
-  <!-- Summary tiles -->
-  <!-- <div class="row g-3 mb-4">
-    <div class="col-6 col-md-3">
-      <div class="tile tile-income">
-        <p class="tile-label">Total earned</p>
-        <h4 class="tile-value">&#8377;{{ summary().totalEarned | number }}</h4>
-      </div>
-    </div>
-    <div class="col-6 col-md-3">
-      <div class="tile tile-expense">
-        <p class="tile-label">Total diesel cost</p>
-        <h4 class="tile-value">&#8377;{{ summary().dieselCost | number }}</h4>
-      </div>
-    </div>
-    <div class="col-6 col-md-3">
-      <div class="tile tile-neutral">
-        <p class="tile-label">Other expenses</p>
-        <h4 class="tile-value">&#8377;{{ otherExpenses | number }}</h4>
-      </div>
-    </div>
-    <div class="col-6 col-md-3">
-      <div class="tile tile-info">
-        <p class="tile-label">Net profit</p>
-        <h4 class="tile-value">&#8377;{{ netProfit() | number }}</h4>
-      </div>
-    </div>
-  </div> -->
-
-  <!-- Charts -->
-  <div class="row g-4">
-    <div class="col-md-7">
-      <p class="fw-medium mb-2">Monthly trend</p>
-      <div style="height: 260px">
-        <canvas
-          baseChart
-          [data]="monthlyTrendData"
-          [options]="barChartOptions"
-          type="bar"
+  <!-- charts row -->
+  <div class="row g-3 mb-3">
+    <div class="col-12 col-md-7">
+      <div class="border rounded p-3">
+        <p class="fw-medium mb-1">Monthly earnings vs diesel cost</p>
+        <div
+          class="d-flex gap-3 mb-3"
+          style="font-size: 12px; color: var(--bs-secondary-color)"
         >
-        </canvas>
+          <span
+            ><span
+              class="d-inline-block me-1 rounded-1"
+              style="width: 10px; height: 10px; background: #639922"
+            ></span
+            >Earnings</span
+          >
+          <span
+            ><span
+              class="d-inline-block me-1 rounded-1"
+              style="width: 10px; height: 10px; background: #e24b4a"
+            ></span
+            >Diesel cost</span
+          >
+          <span
+            ><span
+              class="d-inline-block me-1 rounded-1"
+              style="width: 10px; height: 10px; background: #85b7eb"
+            ></span
+            >Net profit</span
+          >
+        </div>
+        <div style="height: 220px">
+          <canvas
+            baseChart
+            [data]="monthlyTrendData"
+            [options]="barChartOptions"
+            type="bar"
+          >
+          </canvas>
+        </div>
       </div>
     </div>
 
-    <div class="col-md-5">
-      <p class="fw-medium mb-2">Expense breakdown</p>
-      <div style="height: 260px">
-        <canvas
-          baseChart
-          [data]="expenseBreakdownData"
-          [options]="doughnutOptions"
-          type="doughnut"
+    <div class="col-12 col-md-5">
+      <div class="border rounded p-3 h-100">
+        <p class="fw-medium mb-1">Expense breakdown</p>
+        <div
+          class="d-flex gap-3 mb-3"
+          style="font-size: 12px; color: var(--bs-secondary-color)"
         >
-        </canvas>
+          <span
+            ><span
+              class="d-inline-block me-1 rounded-1"
+              style="width: 10px; height: 10px; background: #e24b4a"
+            ></span
+            >Diesel {{ dieselPercent() }}%</span
+          >
+          <span
+            ><span
+              class="d-inline-block me-1 rounded-1"
+              style="width: 10px; height: 10px; background: #ba7517"
+            ></span
+            >Maintenance {{ maintenancePercent() }}%</span
+          >
+        </div>
+        <div style="height: 160px">
+          <canvas
+            baseChart
+            [data]="expenseBreakdownData"
+            [options]="doughnutOptions"
+            type="doughnut"
+          >
+          </canvas>
+        </div>
+        <div class="border-top pt-3 mt-3">
+          <div class="d-flex justify-content-between small mb-2">
+            <span class="text-muted">Total expenses</span>
+            <span class="fw-medium"
+              >₹{{ summary().dieselCost + otherExpenses | number }}</span
+            >
+          </div>
+          <div class="d-flex justify-content-between small">
+            <span class="text-muted">Avg diesel rate</span>
+            <span class="fw-medium">₹{{ avgDieselRate() }} / L</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- bottom row: top farmers + monthly table -->
+  <div class="row g-3">
+    <div class="col-12 col-md-6">
+      <div class="border rounded p-3">
+        <p class="fw-medium mb-3">Top farmers by earnings</p>
+        <div
+          *ngFor="let farmer of topFarmers(); let last = last"
+          class="d-flex align-items-center gap-2 py-2"
+          [class.border-bottom]="!last"
+        >
+          <div
+            class="avatar"
+            [class.avatar-success]="farmer.pendingAmount === 0"
+            [class.avatar-warning]="farmer.pendingAmount > 0"
+          >
+            {{ getInitials(farmer.name) }}
+          </div>
+          <div class="flex-grow-1">
+            <div class="d-flex justify-content-between mb-1">
+              <span class="small fw-medium">{{ farmer.name }}</span>
+              <span
+                class="small"
+                [class.text-success]="farmer.pendingAmount === 0"
+                [class.text-warning]="farmer.pendingAmount > 0"
+              >
+                {{
+                  farmer.pendingAmount > 0
+                    ? "₹" + (farmer.pendingAmount | number) + " due"
+                    : farmer.totalJobs + " jobs"
+                }}
+              </span>
+            </div>
+            <div class="progress" style="height: 5px">
+              <div
+                class="progress-bar"
+                [style.width]="getBarWidth(farmer.totalJobs)"
+                [class.bg-success]="farmer.pendingAmount === 0"
+                [class.bg-warning]="farmer.pendingAmount > 0"
+              ></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-6">
+      <div class="border rounded p-3">
+        <p class="fw-medium mb-3">Month-wise summary</p>
+        <table class="table table-sm align-middle mb-0" style="font-size: 13px">
+          <thead>
+            <tr
+              class="text-muted"
+              style="
+                font-size: 11px;
+                text-transform: uppercase;
+                letter-spacing: 0.4px;
+              "
+            >
+              <th class="fw-medium border-0">Month</th>
+              <th class="fw-medium border-0 text-end">Earned</th>
+              <th class="fw-medium border-0 text-end">Diesel</th>
+              <th class="fw-medium border-0 text-end">Profit</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="let row of monthlySummary"
+              [class.table-success]="row.isCurrent"
+            >
+              <td
+                [class.fw-medium]="row.isCurrent"
+                [class.text-success]="row.isCurrent"
+              >
+                {{ row.month }}
+              </td>
+              <td class="text-end text-success">₹{{ row.earned | number }}</td>
+              <td class="text-end text-danger">₹{{ row.diesel | number }}</td>
+              <td
+                class="text-end fw-medium"
+                [class.text-success]="row.isCurrent"
+              >
+                ₹{{ row.profit | number }}
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr class="border-top">
+              <td class="fw-medium small text-muted">Total</td>
+              <td class="text-end fw-medium">₹{{ totalEarned() | number }}</td>
+              <td class="text-end fw-medium">₹{{ totalDiesel() | number }}</td>
+              <td class="text-end fw-medium">₹{{ totalProfit() | number }}</td>
+            </tr>
+          </tfoot>
+        </table>
       </div>
     </div>
   </div>

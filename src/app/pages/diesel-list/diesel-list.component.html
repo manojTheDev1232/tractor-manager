@@ -1,100 +1,179 @@
-<div class="container">
-  <div class="row gap-2 flex-nowrap">
-    <div class="col-6 border rounded p-3">
-      <div class="d-flex justify-content-between align-items-center">
-        <h5>Diesel purchases</h5>
-        <button class="btn btn-outline-dark">
-          <i class="ti ti-plus"></i>Add purchase
+<app-diesel-form #dieselFormRef></app-diesel-form>
+
+<div class="page-container">
+  <!-- page header -->
+  <div class="page-header">
+    <div>
+      <p class="page-date">{{ today | date: "MMMM yyyy" }}</p>
+      <h4 class="page-title">Diesel purchases</h4>
+    </div>
+    <button
+      type="button"
+      class="btn-add btn-add-red"
+      (click)="openAddPurchase()"
+    >
+      <i class="ti ti-plus"></i> Add purchase
+    </button>
+  </div>
+
+  <!-- summary stat tiles -->
+  <div class="stat-row">
+    <div class="stat-tile">
+      <p class="stat-label">Total purchases</p>
+      <p class="stat-value">{{ filteredPurchases().length }}</p>
+    </div>
+    <div class="stat-tile">
+      <p class="stat-label">Total spent</p>
+      <p class="stat-value expense">₹{{ totalSpent() | number }}</p>
+    </div>
+    <div class="stat-tile">
+      <p class="stat-label">Total liters</p>
+      <p class="stat-value">{{ totalLiters() }} L</p>
+    </div>
+    <div class="stat-tile">
+      <p class="stat-label">Avg rate / L</p>
+      <p class="stat-value">₹{{ avgRate() }}</p>
+    </div>
+  </div>
+
+  <!-- table card -->
+  <div class="list-card">
+    <!-- filters -->
+    <div class="filter-row">
+      <div class="search-wrap">
+        <i class="ti ti-search search-icon"></i>
+        <input
+          type="text"
+          class="filter-input search-input"
+          placeholder="Search vendor..."
+          [value]="searchText()"
+          (input)="onSearchChanged($any($event.target).value)"
+        />
+        <button
+          *ngIf="searchText()"
+          type="button"
+          class="clear-btn"
+          (click)="clearSearch()"
+          title="Clear search"
+        >
+          <i class="ti ti-x"></i>
         </button>
       </div>
-      <div class="mt-2">
-        <form class="d-flex flex-column gap-2">
-          <input
-            class="form-control"
-            type="text"
-            placeholder="Search vendor.."
-            [value]="searchText()"
-            (input)="onSearchChanged($any($event.target).value)"
-          />
-          <div class="d-flex gap-1">
-            <input
-              type="month"
-              class="form-control"
-              style="max-width: 160px"
-              [value]="monthFilter()"
-              [disabled]="!monthFilterEnabled()"
-              (change)="onMonthChange($any($event.target).value)"
-            />
-            <button
-              type="button"
-              class="btn btn-sm"
-              [class.btn-success]="monthFilterEnabled()"
-              [class.btn-outline-secondary]="!monthFilterEnabled()"
-              title="Toggle month filter"
-              (click)="toggleMonthFilter()"
-            >
-              <i class="ti ti-calendar-check" *ngIf="monthFilterEnabled()"></i>
-              <i class="ti ti-calendar-off" *ngIf="!monthFilterEnabled()"></i>
-            </button>
-          </div>
-        </form>
-      </div>
-      <div class="table-responsive mt-4" style="min-height: 300px">
-        <table class="table align-middle">
-          <thead>
-            <tr class="">
-              <th>Vendor</th>
-              <th>Rate/L</th>
-              <th>Date</th>
-              <th>Amount</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let purchase of pagedPurchases()">
-              <td class="fw-medium">{{ purchase.vendorName }}</td>
-              <td>{{ purchase.ratePerLiter }}</td>
-              <td>{{ purchase.date | date: "d MMM" }}</td>
-              <td class="text-success fw-medium">
-                +&#8377;{{ purchase.amount | number }}
-              </td>
-              <td class="text-end">
-                <a class="me-2 text-decoration-none">
-                  <i class="ti ti-edit"></i>
-                </a>
-                <i class="ti ti-trash text-danger" style="cursor: pointer"></i>
-              </td>
-            </tr>
-            <tr *ngIf="pagedPurchases().length === 0">
-              <td colspan="6" class="text-center text-muted py-4">
-                No jobs Found
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div
-        class="d-flex justify-content-between align-items-center mt-2 small text-muted"
-      >
-        <span>
-          Showing{{ (currentPage() - 1) * pageSize + 1 }}-{{
-            Math.min(currentPage() * pageSize, filteredPurchases().length)
-          }}
-          of {{ filteredPurchases().length }}
-        </span>
-        <div class="d-flex gap-1">
-          <button
-            class="btn btn-sm btn-outline-secondary"
-            [disabled]="currentPage() === 1"
-          >
-            Prev
-          </button>
-          <button class="btn btn-sm btn-outline-secondary">Next</button>
-        </div>
+
+      <div class="month-wrap">
+        <input
+          type="month"
+          class="filter-input month-input"
+          [value]="monthFilter()"
+          [disabled]="!monthFilterEnabled()"
+          (change)="onMonthChange($any($event.target).value)"
+        />
+        <button
+          type="button"
+          class="icon-btn month-toggle"
+          [class.active-red]="monthFilterEnabled()"
+          (click)="toggleMonthFilter()"
+          title="Toggle month filter"
+        >
+          <i
+            class="ti"
+            [class.ti-calendar-check]="monthFilterEnabled()"
+            [class.ti-calendar-off]="!monthFilterEnabled()"
+          ></i>
+        </button>
       </div>
     </div>
-    <div class="col-6 border rounded p-3">
-      <app-diesel-form></app-diesel-form>
+
+    <!-- column headers -->
+    <div class="col-header">
+      <span>Vendor</span>
+      <span>Liters</span>
+      <span class="hide-sm">Rate/L</span>
+      <span class="hide-sm">Date</span>
+      <span>Amount</span>
+      <span></span>
+    </div>
+
+    <!-- rows -->
+    <div
+      *ngFor="let p of pagedPurchases(); let odd = odd"
+      class="diesel-row"
+      [class.row-alt]="odd"
+    >
+      <div class="vendor-cell">
+        <div class="vendor-icon">
+          <i class="ti ti-gas-station"></i>
+        </div>
+        <div>
+          <p class="vendor-name">{{ getVendorShortName(p.vendorName) }}</p>
+          <p class="vendor-location">{{ getVendorLocation(p.vendorName) }}</p>
+        </div>
+      </div>
+      <span class="cell-muted">{{ p.liters }} L</span>
+      <span class="cell-muted hide-sm">₹{{ p.ratePerLiter }}</span>
+      <span class="cell-muted hide-sm">{{ p.date | date: "d MMM" }}</span>
+      <span class="amount-expense">-₹{{ p.amount | number }}</span>
+      <div class="action-cell">
+        <button
+          type="button"
+          class="icon-btn"
+          (click)="openEditPurchase(p)"
+          title="Edit"
+        >
+          <i class="ti ti-edit"></i>
+        </button>
+        <button
+          type="button"
+          class="icon-btn icon-btn-danger"
+          (click)="deletePurchase(p.id)"
+          title="Delete"
+        >
+          <i class="ti ti-trash"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- empty state -->
+    <div *ngIf="pagedPurchases().length === 0" class="empty-state">
+      <i class="ti ti-mood-empty"></i>
+      <p>No purchases found</p>
+    </div>
+
+    <!-- pagination -->
+    <div class="pagination-row">
+      <span class="pagination-info">
+        Showing {{ (currentPage() - 1) * pageSize + 1 }}–{{
+          Math.min(currentPage() * pageSize, filteredPurchases().length)
+        }}
+        of {{ filteredPurchases().length }} results
+      </span>
+      <div class="pagination-btns">
+        <button
+          type="button"
+          class="pg-btn"
+          [disabled]="currentPage() === 1"
+          (click)="prevPage()"
+        >
+          Prev
+        </button>
+        <button
+          *ngFor="let page of pageNumbers()"
+          type="button"
+          class="pg-num"
+          [class.pg-num-active-red]="page === currentPage()"
+          (click)="goToPage(page)"
+        >
+          {{ page }}
+        </button>
+        <button
+          type="button"
+          class="pg-btn"
+          [disabled]="currentPage() === totalPages()"
+          (click)="nextPage()"
+        >
+          Next
+        </button>
+      </div>
     </div>
   </div>
 </div>

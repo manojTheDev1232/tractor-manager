@@ -12,6 +12,7 @@ export class FarmerService {
       phone: '9876543210',
       totalJobs: 5,
       pendingAmount: 0,
+      village: 'Palshi',
     },
     {
       id: 2,
@@ -19,6 +20,7 @@ export class FarmerService {
       phone: '9876501234',
       totalJobs: 3,
       pendingAmount: 2000,
+      village: 'Shirwal',
     },
     {
       id: 3,
@@ -26,6 +28,7 @@ export class FarmerService {
       phone: '9876512345',
       totalJobs: 4,
       pendingAmount: 0,
+      village: 'Palshi',
     },
     {
       id: 4,
@@ -33,6 +36,7 @@ export class FarmerService {
       phone: '9876523456',
       totalJobs: 2,
       pendingAmount: 4000,
+      village: 'Kasegaon',
     },
     {
       id: 5,
@@ -40,6 +44,7 @@ export class FarmerService {
       phone: '9876534567',
       totalJobs: 6,
       pendingAmount: 1500,
+      village: 'Shirwal',
     },
     {
       id: 6,
@@ -47,6 +52,7 @@ export class FarmerService {
       phone: '9876545678',
       totalJobs: 1,
       pendingAmount: 0,
+      village: 'Pimpri',
     },
     {
       id: 7,
@@ -54,6 +60,7 @@ export class FarmerService {
       phone: '9876556789',
       totalJobs: 8,
       pendingAmount: 5000,
+      village: 'Kasegaon',
     },
     {
       id: 8,
@@ -61,6 +68,7 @@ export class FarmerService {
       phone: '9876567890',
       totalJobs: 3,
       pendingAmount: 1000,
+      village: 'Palshi',
     },
     {
       id: 9,
@@ -68,6 +76,7 @@ export class FarmerService {
       phone: '9876578901',
       totalJobs: 5,
       pendingAmount: 0,
+      village: 'Koregaon',
     },
     {
       id: 10,
@@ -75,6 +84,7 @@ export class FarmerService {
       phone: '9876589012',
       totalJobs: 2,
       pendingAmount: 3000,
+      village: 'Pimpri',
     },
     {
       id: 11,
@@ -82,6 +92,7 @@ export class FarmerService {
       phone: '9876590123',
       totalJobs: 4,
       pendingAmount: 0,
+      village: 'Koregaon',
     },
     {
       id: 12,
@@ -89,6 +100,7 @@ export class FarmerService {
       phone: '9876502345',
       totalJobs: 7,
       pendingAmount: 2500,
+      village: 'Shirwal',
     },
     {
       id: 13,
@@ -96,6 +108,7 @@ export class FarmerService {
       phone: '9876513456',
       totalJobs: 2,
       pendingAmount: 0,
+      village: 'Kasegaon',
     },
     {
       id: 14,
@@ -103,6 +116,7 @@ export class FarmerService {
       phone: '9876524567',
       totalJobs: 5,
       pendingAmount: 8000,
+      village: 'Palshi',
     },
     {
       id: 15,
@@ -110,6 +124,7 @@ export class FarmerService {
       phone: '9876535678',
       totalJobs: 3,
       pendingAmount: 0,
+      village: 'Koregaon',
     },
     {
       id: 16,
@@ -117,6 +132,7 @@ export class FarmerService {
       phone: '9876546789',
       totalJobs: 9,
       pendingAmount: 1200,
+      village: 'Pimpri',
     },
     {
       id: 17,
@@ -124,6 +140,7 @@ export class FarmerService {
       phone: '9876557890',
       totalJobs: 4,
       pendingAmount: 0,
+      village: 'Koregaon',
     },
     {
       id: 18,
@@ -131,6 +148,7 @@ export class FarmerService {
       phone: '9876568901',
       totalJobs: 2,
       pendingAmount: 500,
+      village: 'Shirwal',
     },
     {
       id: 19,
@@ -138,6 +156,7 @@ export class FarmerService {
       phone: '9876579012',
       totalJobs: 6,
       pendingAmount: 0,
+      village: 'Kasegaon',
     },
     {
       id: 20,
@@ -145,6 +164,7 @@ export class FarmerService {
       phone: '9876580123',
       totalJobs: 3,
       pendingAmount: 3500,
+      village: 'Palshi',
     },
     {
       id: 21,
@@ -152,6 +172,7 @@ export class FarmerService {
       phone: '9876591234',
       totalJobs: 5,
       pendingAmount: 0,
+      village: 'Pimpri',
     },
     {
       id: 22,
@@ -159,6 +180,7 @@ export class FarmerService {
       phone: '9876503456',
       totalJobs: 1,
       pendingAmount: 0,
+      village: 'Koregaon',
     },
     {
       id: 23,
@@ -166,6 +188,7 @@ export class FarmerService {
       phone: '9876514567',
       totalJobs: 4,
       pendingAmount: 2000,
+      village: 'Kasegaon',
     },
     {
       id: 24,
@@ -173,6 +196,7 @@ export class FarmerService {
       phone: '9876525678',
       totalJobs: 7,
       pendingAmount: 4500,
+      village: 'Shirwal',
     },
     {
       id: 25,
@@ -180,6 +204,7 @@ export class FarmerService {
       phone: '9876536789',
       totalJobs: 2,
       pendingAmount: 0,
+      village: 'Palshi',
     },
     {
       id: 26,
@@ -187,6 +212,7 @@ export class FarmerService {
       phone: '9876547890',
       totalJobs: 5,
       pendingAmount: 1000,
+      village: 'Pimpri',
     },
     {
       id: 27,
@@ -194,6 +220,7 @@ export class FarmerService {
       phone: '9876558901',
       totalJobs: 3,
       pendingAmount: 0,
+      village: 'Koregaon',
     },
     {
       id: 28,
@@ -201,6 +228,7 @@ export class FarmerService {
       phone: '9876569012',
       totalJobs: 8,
       pendingAmount: 6000,
+      village: 'Shirwal',
     },
     {
       id: 29,
@@ -208,6 +236,7 @@ export class FarmerService {
       phone: '9876570123',
       totalJobs: 4,
       pendingAmount: 0,
+      village: 'Kasegaon',
     },
     {
       id: 30,
@@ -215,6 +244,7 @@ export class FarmerService {
       phone: '9876581234',
       totalJobs: 2,
       pendingAmount: 2000,
+      village: 'Palshi',
     },
     {
       id: 31,
@@ -222,6 +252,7 @@ export class FarmerService {
       phone: '9876592345',
       totalJobs: 6,
       pendingAmount: 0,
+      village: 'Pimpri',
     },
     {
       id: 32,
@@ -229,6 +260,7 @@ export class FarmerService {
       phone: '9876504567',
       totalJobs: 3,
       pendingAmount: 500,
+      village: 'Koregaon',
     },
     {
       id: 33,
@@ -236,6 +268,7 @@ export class FarmerService {
       phone: '9876515678',
       totalJobs: 5,
       pendingAmount: 1500,
+      village: 'Shirwal',
     },
     {
       id: 34,
@@ -243,6 +276,7 @@ export class FarmerService {
       phone: '9876526789',
       totalJobs: 9,
       pendingAmount: 0,
+      village: 'Kasegaon',
     },
     {
       id: 35,
@@ -250,6 +284,7 @@ export class FarmerService {
       phone: '9876537890',
       totalJobs: 2,
       pendingAmount: 4000,
+      village: 'Palshi',
     },
     {
       id: 36,
@@ -257,6 +292,7 @@ export class FarmerService {
       phone: '9876548901',
       totalJobs: 4,
       pendingAmount: 0,
+      village: 'Pimpri',
     },
     {
       id: 37,
@@ -264,6 +300,7 @@ export class FarmerService {
       phone: '9876559012',
       totalJobs: 3,
       pendingAmount: 1200,
+      village: 'Koregaon',
     },
     {
       id: 38,
@@ -271,6 +308,7 @@ export class FarmerService {
       phone: '9876560123',
       totalJobs: 7,
       pendingAmount: 0,
+      village: 'Shirwal',
     },
     {
       id: 39,
@@ -278,6 +316,7 @@ export class FarmerService {
       phone: '9876571234',
       totalJobs: 5,
       pendingAmount: 2500,
+      village: 'Kasegaon',
     },
     {
       id: 40,
@@ -285,6 +324,7 @@ export class FarmerService {
       phone: '9876582345',
       totalJobs: 1,
       pendingAmount: 0,
+      village: 'Palshi',
     },
     {
       id: 41,
@@ -292,6 +332,7 @@ export class FarmerService {
       phone: '9876593456',
       totalJobs: 6,
       pendingAmount: 3000,
+      village: 'Pimpri',
     },
     {
       id: 42,
@@ -299,6 +340,7 @@ export class FarmerService {
       phone: '9876505678',
       totalJobs: 2,
       pendingAmount: 0,
+      village: 'Koregaon',
     },
     {
       id: 43,
@@ -306,6 +348,7 @@ export class FarmerService {
       phone: '9876516789',
       totalJobs: 4,
       pendingAmount: 1000,
+      village: 'Shirwal',
     },
     {
       id: 44,
@@ -313,6 +356,7 @@ export class FarmerService {
       phone: '9876527890',
       totalJobs: 8,
       pendingAmount: 5500,
+      village: 'Kasegaon',
     },
     {
       id: 45,
@@ -320,6 +364,7 @@ export class FarmerService {
       phone: '9876538901',
       totalJobs: 3,
       pendingAmount: 0,
+      village: 'Palshi',
     },
     {
       id: 46,
@@ -327,6 +372,7 @@ export class FarmerService {
       phone: '9876549012',
       totalJobs: 5,
       pendingAmount: 2000,
+      village: 'Pimpri',
     },
     {
       id: 47,
@@ -334,6 +380,7 @@ export class FarmerService {
       phone: '9876550123',
       totalJobs: 2,
       pendingAmount: 0,
+      village: 'Koregaon',
     },
     {
       id: 48,
@@ -341,6 +388,7 @@ export class FarmerService {
       phone: '9876561234',
       totalJobs: 7,
       pendingAmount: 4500,
+      village: 'Shirwal',
     },
     {
       id: 49,
@@ -348,6 +396,7 @@ export class FarmerService {
       phone: '9876572345',
       totalJobs: 4,
       pendingAmount: 0,
+      village: 'Kasegaon',
     },
     {
       id: 50,
@@ -355,6 +404,7 @@ export class FarmerService {
       phone: '9876583456',
       totalJobs: 6,
       pendingAmount: 1500,
+      village: 'Palshi',
     },
   ]);
 

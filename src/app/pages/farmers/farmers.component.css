@@ -1,50 +1,243 @@
-.farmer-card {
-  border: 1px solid #eaeaea;
-  border-radius: 10px;
-  padding: 12px 14px;
-  background: #fff;
+.page-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 1.5rem;
 }
 
-.avatar {
-  width: 36px;
-  height: 36px;
+/* // ---- header ---- */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.page-date { margin: 0 0 4px; font-size: 12px; color: #888; }
+.page-title { margin: 0; font-size: 18px; font-weight: 500; }
+.farmers-count-badge {
+  font-size: 12px;
+  color: #888;
+  background: #f5f5f3;
+  padding: 5px 12px;
+  border-radius: 20px;
+}
+
+/* // ---- stat tiles ---- */
+.stat-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+.stat-tile {
+  background: #f5f5f3;
+  border-radius: 8px;
+  padding: 12px 16px;
+}
+.stat-label {
+  font-size: 11px;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0 0 4px;
+}
+.stat-value { font-size: 16px; font-weight: 500; margin: 0; }
+.stat-success { background: #eaf3de; color: #27500a; }
+.stat-warning { background: #faeeda; color: #633806; }
+
+/* // ---- filters ---- */
+.filter-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.filter-input {
+  padding: 7px 12px;
+  border-radius: 8px;
+  border: 0.5px solid #e0e0e0;
+  font-size: 13px;
+  background: #fff;
+  color: #222;
+  outline: none;
+  &:focus { border-color: #97c459; }
+}
+.search-wrap {
+  position: relative;
+  flex: 1;
+  min-width: 180px;
+  max-width: 320px;
+}
+.search-input { width: 100%; padding-left: 32px; box-sizing: border-box; }
+.search-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 15px;
+  color: #aaa;
+  pointer-events: none;
+}
+.clear-btn {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #aaa;
+  padding: 0;
+  font-size: 14px;
+  &:hover { color: #555; }
+}
+
+/* // ---- village filter ---- */
+.village-filter-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.village-icon {
+  position: absolute;
+  left: 10px;
+  font-size: 14px;
+  color: #aaa;
+  pointer-events: none;
+  z-index: 1;
+}
+.village-select {
+  padding-left: 30px;
+  min-width: 160px;
+  cursor: pointer;
+  appearance: auto;
+}
+
+/* // ---- active filter badge ---- */
+.active-filter-badge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: #eaf3de;
+  color: #27500a;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 5px 10px;
+  border-radius: 20px;
+  border: 0.5px solid #97c459;
+
+  i { font-size: 13px; }
+}
+.remove-filter {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #27500a;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  margin-left: 2px;
+  &:hover { color: #555; }
+}
+
+/* // ---- farmers grid ---- */
+.farmers-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+.farmer-card {
+  background: #fff;
+  border: 0.5px solid #e5e5e5;
+  border-radius: 12px;
+  padding: 14px;
+  cursor: pointer;
+  transition: box-shadow 0.15s, transform 0.15s;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  &:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    transform: translateY(-1px);
+  }
+}
+
+/* // ---- card top ---- */
+.card-top { display: flex; align-items: center; gap: 10px; }
+.farmer-avatar {
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 12px;
   font-weight: 600;
-  font-size: 0.85rem;
   flex-shrink: 0;
 }
-
-.avatar-success {
-  background-color: #e6efdb;
-  color: #335c1f;
-}
-
-.avatar-warning {
-  background-color: #faeeda;
-  color: #8a5a12;
-}
-
-.farmer-name {
-  font-weight: 500;
-  font-size: 0.95rem;
-}
-
+.avatar-paid { background: #eaf3de; color: #27500a; }
+.avatar-pending { background: #faeeda; color: #633806; }
+.farmer-info { min-width: 0; }
+.farmer-name { margin: 0 0 3px; font-size: 13px; font-weight: 500; }
 .farmer-phone {
-  font-size: 0.75rem;
+  margin: 0;
+  font-size: 11px;
+  color: #aaa;
+  i { font-size: 11px; margin-right: 3px; }
+}
+
+/* // ---- village tag ---- */
+.village-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: #666;
+  background: #f5f5f3;
+  padding: 3px 8px;
+  border-radius: 10px;
+  width: fit-content;
+  i { font-size: 11px; }
+}
+
+/* // ---- card bottom ---- */
+.card-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 8px;
+  border-top: 0.5px solid #f0f0ee;
+}
+.jobs-count {
+  font-size: 12px;
   color: #888;
+  i { font-size: 12px; margin-right: 3px; }
+}
+.payment-status { font-size: 12px; font-weight: 500; }
+.status-paid { color: #27500a; }
+.status-pending { color: #633806; }
+
+/* // ---- empty state ---- */
+.empty-state {
+  text-align: center;
+  padding: 60px 0;
+  color: #aaa;
+  i { font-size: 36px; display: block; margin-bottom: 10px; }
+  p { margin: 0 0 4px; font-size: 15px; font-weight: 500; color: #666; }
+  small { font-size: 13px; }
 }
 
-.status-paid {
-  font-size: 0.8rem;
-  font-weight: 500;
-  color: #335c1f;
+/* // ---- responsive ---- */
+@media (max-width: 1024px) {
+  .farmers-grid { grid-template-columns: repeat(2, 1fr); }
 }
-
-.status-due {
-  font-size: 0.8rem;
-  font-weight: 500;
-  color: #8a5a12;
+@media (max-width: 768px) {
+  .stat-row { grid-template-columns: 1fr 1fr; }
+  .farmers-grid { grid-template-columns: repeat(2, 1fr); }
+  .page-container { padding: 1rem; }
+}
+@media (max-width: 480px) {
+  .farmers-grid { grid-template-columns: 1fr; }
+  .stat-row { grid-template-columns: 1fr 1fr; }
 }

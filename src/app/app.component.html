@@ -1,23 +1,6 @@
-<nav class="navbar navbar-expand-md border-bottom p-3">
-  <div class="container d-flex justify-content-between">
-    <div class="d-flex align-items-center">
-      <img class="logo-image me-2" src="logo.png" />
-      <h4 class="fs-5 mb-0">Tractor Manager</h4>
-    </div>
-    <div class="d-flex align-items-center">
-      <p class="text-body-secondary small mb-0">Manoj Singh</p>
-    </div>
-  </div>
-</nav>
-<div class="container-fluid">
-  <div class="row">
-    <aside class="col-md-3 col-lg-2 d-none d-md-block border-end vh-100">
-      <sidebar></sidebar>
-    </aside>
-    <main class="col-12 col-md-9 col-lg-10 p-3 p-md-4">
-      <div class="border rounded p-3">
-        <router-outlet></router-outlet>
-      </div>
-    </main>
+<div class="d-flex">
+  <app-navbar></app-navbar>
+  <div class="main-content flex-grow-1" style="min-width: 0">
+    <router-outlet></router-outlet>
   </div>
 </div>

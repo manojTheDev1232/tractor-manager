@@ -4,4 +4,5 @@ export interface Farmer {
   phone: string;
   totalJobs: number;
   pendingAmount: number;
+  village: string;
 }

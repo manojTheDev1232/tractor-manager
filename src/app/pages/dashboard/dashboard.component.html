@@ -1,53 +1,297 @@
-<div class="container">
-  <div class="row g-3 mb-3">
+<app-job-form #jobFormRef></app-job-form>
+<app-diesel-form #dieselFormRef></app-diesel-form>
+
+<div class="container-fluid p-3 p-md-4 d-flex flex-column gap-3">
+  <!-- greeting -->
+  <div
+    class="d-flex justify-content-between align-items-center flex-wrap gap-2"
+  >
+    <div>
+      <p class="text-muted small mb-1">{{ today | date: "EEEE, d MMMM y" }}</p>
+      <h4 class="mb-0">Good morning, Manoj 👋</h4>
+    </div>
+    <div class="d-flex gap-2">
+      <button
+        type="button"
+        class="btn btn-sm tile-income border"
+        (click)="openAddJob()"
+      >
+        <i class="ti ti-tractor me-1"></i>Add job
+      </button>
+      <button
+        type="button"
+        class="btn btn-sm tile-expense border"
+        (click)="openAddDiesel()"
+      >
+        <i class="ti ti-gas-station me-1"></i>Add diesel
+      </button>
+    </div>
+  </div>
+
+  <!-- metric tiles -->
+  <div class="row g-3">
     <div class="col-6 col-md-3">
-      <div class="tile tile-income border rounded">
-        <p class="tile-label">Total earned</p>
-        <h3 class="tile-value">+&#8377;{{ summary().totalEarned | number }}</h3>
-        <p class="tile-sub">{{ summary().jobsCount }} jobs this month</p>
+      <div class="tile tile-income h-100">
+        <div class="d-flex justify-content-between align-items-start">
+          <div>
+            <p class="tile-label">Total earned</p>
+            <h4 class="tile-value">₹{{ summary().totalEarned | number }}</h4>
+            <small class="tile-sub"
+              >{{ summary().jobsCount }} jobs this month</small
+            >
+          </div>
+          <div class="tile-icon"><i class="ti ti-trending-up"></i></div>
+        </div>
+        <div class="tile-footer">
+          <i
+            class="ti"
+            [class.ti-arrow-up]="earningsChange() >= 0"
+            [class.ti-arrow-down]="earningsChange() < 0"
+          ></i>
+          {{ earningsChange() >= 0 ? "+" : "" }}{{ earningsChange() }}% vs last
+          period
+        </div>
       </div>
     </div>
 
     <div class="col-6 col-md-3">
-      <div class="tile tile-expense border rounded">
-        <p class="tile-label">Diesel cost</p>
-        <h3 class="tile-value">-&#8377;{{ summary().dieselCost | number }}</h3>
-        <p class="tile-sub">{{ summary().totalLiters }} liters used</p>
+      <div class="tile tile-expense h-100">
+        <div class="d-flex justify-content-between align-items-start">
+          <div>
+            <p class="tile-label">Diesel cost</p>
+            <h4 class="tile-value">₹{{ summary().dieselCost | number }}</h4>
+            <small class="tile-sub"
+              >{{ summary().totalLiters }} liters used</small
+            >
+          </div>
+          <div class="tile-icon"><i class="ti ti-gas-station"></i></div>
+        </div>
+        <div class="tile-footer">
+          <i
+            class="ti"
+            [class.ti-arrow-up]="dieselChange() >= 0"
+            [class.ti-arrow-down]="dieselChange() < 0"
+          ></i>
+          {{ dieselChange() >= 0 ? "+" : "" }}{{ dieselChange() }}% vs last
+          period
+        </div>
       </div>
     </div>
 
     <div class="col-6 col-md-3">
-      <div class="tile tile-neutral border rounded">
-        <p class="tile-label">Net profit</p>
-        <h3 class="tile-value">&#8377;{{ summary().netProfit | number }}</h3>
-        <p class="tile-sub">
-          {{
-            (summary().netProfit / summary().totalEarned) * 100
-              | number: "1.0-0"
-          }}% margin
-        </p>
+      <div class="tile tile-info h-100">
+        <div class="d-flex justify-content-between align-items-start">
+          <div>
+            <p class="tile-label">Net profit</p>
+            <h4 class="tile-value">₹{{ summary().netProfit | number }}</h4>
+            <small class="tile-sub">
+              {{
+                summary().totalEarned > 0
+                  ? ((summary().netProfit / summary().totalEarned) * 100
+                    | number: "1.0-0")
+                  : 0
+              }}% margin
+            </small>
+          </div>
+          <div class="tile-icon"><i class="ti ti-coin"></i></div>
+        </div>
+        <div class="tile-footer">
+          <i class="ti ti-chart-line"></i> Earnings minus all costs
+        </div>
       </div>
     </div>
 
     <div class="col-6 col-md-3">
-      <div class="tile tile-info border rounded">
-        <p class="tile-label">Pending payments</p>
-        <h3 class="tile-value">
-          &#8377;{{ summary().pendingAmount | number }}
-        </h3>
-        <p class="tile-sub">{{ summary().pendingFarmersCount }} farmers due</p>
+      <div class="tile tile-warning h-100">
+        <div class="d-flex justify-content-between align-items-start">
+          <div>
+            <p class="tile-label">Pending</p>
+            <h4 class="tile-value">₹{{ summary().pendingAmount | number }}</h4>
+            <small class="tile-sub"
+              >{{ summary().pendingFarmersCount }} farmers due</small
+            >
+          </div>
+          <div class="tile-icon"><i class="ti ti-clock-exclamation"></i></div>
+        </div>
+        <div class="tile-footer">
+          <i class="ti ti-bell"></i> Collect from farmers
+        </div>
       </div>
     </div>
   </div>
-  <div class="row gap-2 flex-nowrap">
-    <!-- left side  -->
-    <!-- <div class="col-6 border rounded p-4">
-      <app-jobs-list></app-jobs-list>
+
+  <!-- middle row: recent jobs + diesel + mini chart -->
+  <div class="row g-3">
+    <!-- recent jobs -->
+    <div class="col-12 col-md-6">
+      <div class="card border shadow-sm p-3 h-100">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <p class="fw-medium mb-0">Recent jobs</p>
+          <a routerLink="/jobs" class="small text-decoration-none"
+            >View all →</a
+          >
+        </div>
+        <div *ngFor="let job of recentJobs(); let last = last">
+          <div
+            class="d-flex justify-content-between align-items-center py-2"
+            [class.border-bottom]="!last"
+          >
+            <div class="d-flex align-items-center gap-2">
+              <div
+                class="avatar"
+                [class.avatar-success]="job.status === 'Paid'"
+                [class.avatar-warning]="job.status === 'Pending'"
+              >
+                {{ getInitials(job.farmerName) }}
+              </div>
+              <div>
+                <p class="mb-0 small fw-medium">{{ job.farmerName }}</p>
+                <p class="mb-0 text-muted" style="font-size: 11px">
+                  {{ job.acres }} acres · {{ job.date | date: "d MMM" }}
+                </p>
+              </div>
+            </div>
+            <div class="text-end">
+              <p class="mb-0 small fw-medium text-success">
+                +₹{{ job.amount | number }}
+              </p>
+              <span
+                class="badge rounded-pill"
+                [class.text-bg-success]="job.status === 'Paid'"
+                [class.text-bg-warning]="job.status === 'Pending'"
+                style="font-size: 10px"
+              >
+                {{ job.status }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    right side
-    <div class="col-6 border rounded p-4"><app-job-form></app-job-form></div> -->
+    <!-- recent diesel + mini chart stacked -->
+    <div class="col-12 col-md-6 d-flex flex-column gap-3">
+      <!-- recent diesel -->
+      <div class="card border shadow-sm p-3">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <p class="fw-medium mb-0">Recent diesel</p>
+          <a routerLink="/diesel" class="small text-decoration-none"
+            >View all →</a
+          >
+        </div>
+        <div *ngFor="let d of recentDiesel(); let last = last">
+          <div
+            class="d-flex justify-content-between align-items-center py-2"
+            [class.border-bottom]="!last"
+          >
+            <div class="d-flex align-items-center gap-2">
+              <i
+                class="ti ti-gas-station text-danger"
+                style="font-size: 16px"
+              ></i>
+              <div>
+                <p class="mb-0 small fw-medium">{{ d.vendorName }}</p>
+                <p class="mb-0 text-muted" style="font-size: 11px">
+                  {{ d.liters }}L · {{ d.date | date: "d MMM" }}
+                </p>
+              </div>
+            </div>
+            <span class="small fw-medium text-danger"
+              >-₹{{ d.amount | number }}</span
+            >
+          </div>
+        </div>
+      </div>
 
-    <app-reports></app-reports>
+      <!-- mini bar chart -->
+      <div class="card border shadow-sm p-3">
+        <p class="fw-medium mb-3">Earnings vs expenses</p>
+        <div class="d-flex align-items-flex-end gap-2" style="height: 80px">
+          <div
+            *ngFor="let w of weeklyTrend"
+            class="d-flex flex-column align-items-center gap-1 flex-fill"
+          >
+            <div class="d-flex align-items-end gap-1" style="height: 60px">
+              <div
+                style="
+                  width: 10px;
+                  border-radius: 3px 3px 0 0;
+                  background: #5a9216;
+                "
+                [style.height.%]="(w.earned / getMaxEarned()) * 100"
+              ></div>
+              <div
+                style="
+                  width: 10px;
+                  border-radius: 3px 3px 0 0;
+                  background: #c2473f;
+                "
+                [style.height.%]="(w.spent / getMaxEarned()) * 100"
+              ></div>
+            </div>
+            <span style="font-size: 10px; color: var(--bs-secondary-color)">{{
+              w.label
+            }}</span>
+          </div>
+        </div>
+        <div
+          class="d-flex gap-3 mt-2"
+          style="font-size: 11px; color: var(--bs-secondary-color)"
+        >
+          <span
+            ><span
+              class="d-inline-block me-1 rounded-1"
+              style="width: 8px; height: 8px; background: #5a9216"
+            ></span
+            >Earnings</span
+          >
+          <span
+            ><span
+              class="d-inline-block me-1 rounded-1"
+              style="width: 8px; height: 8px; background: #c2473f"
+            ></span
+            >Expenses</span
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- pending payments row -->
+  <div class="card border shadow-sm p-3" *ngIf="pendingJobs().length > 0">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <p class="fw-medium mb-0">
+        <i class="ti ti-clock-exclamation text-warning me-1"></i>
+        Pending payments
+      </p>
+      <a routerLink="/pending-payments" class="small text-decoration-none"
+        >View all →</a
+      >
+    </div>
+    <div class="row g-2">
+      <div class="col-12 col-md-6" *ngFor="let job of pendingJobs()">
+        <div
+          class="tile tile-warning d-flex justify-content-between align-items-center p-3"
+        >
+          <div>
+            <p class="mb-0 fw-medium small">{{ job.farmerName }}</p>
+            <p class="mb-0" style="font-size: 11px">
+              Job on {{ job.date | date: "d MMM" }} · {{ job.acres }} acres
+            </p>
+          </div>
+          <div class="text-end">
+            <p class="mb-1 fw-medium small">₹{{ job.amount | number }}</p>
+            <button
+              type="button"
+              class="btn btn-sm"
+              style="font-size: 11px; border: 0.5px solid; padding: 2px 8px"
+              (click)="markPaid(job.id)"
+            >
+              Mark paid
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

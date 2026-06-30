@@ -1,1 +1,173 @@
-<p>navbar works!</p>
+<app-job-form #jobFormRef></app-job-form>
+<app-diesel-form #dieselFormRef></app-diesel-form>
+
+<!-- ===================== MOBILE TOPBAR ===================== -->
+<nav class="mobile-topbar">
+  <div class="topbar-left">
+    <button
+      type="button"
+      class="hamburger-btn"
+      (click)="toggleSidebar()"
+      [class.is-open]="sidebarOpen()"
+      aria-label="Toggle menu"
+    >
+      <span class="bar bar-1"></span>
+      <span class="bar bar-2"></span>
+      <span class="bar bar-3"></span>
+    </button>
+    <div class="topbar-logo">
+      <div class="logo-icon">
+        <i class="ti ti-tractor"></i>
+      </div>
+      <span class="logo-text">Tractor Manager</span>
+    </div>
+  </div>
+  <div class="topbar-right">
+    <button type="button" class="topbar-icon-btn" (click)="openAddJob()">
+      <i class="ti ti-plus"></i>
+    </button>
+  </div>
+</nav>
+
+<!-- ===================== OVERLAY ===================== -->
+<div
+  class="sidebar-overlay"
+  [class.overlay-show]="sidebarOpen()"
+  (click)="closeSidebar()"
+></div>
+
+<!-- ===================== SIDEBAR ===================== -->
+<aside class="sidebar" [class.sidebar-open]="sidebarOpen()">
+  <!-- sidebar header -->
+  <div class="sidebar-header">
+    <div class="sidebar-logo">
+      <div class="logo-icon">
+        <i class="ti ti-tractor"></i>
+      </div>
+      <div>
+        <p class="logo-name">Tractor Manager</p>
+        <p class="logo-sub">Business dashboard</p>
+      </div>
+    </div>
+    <!-- close button (mobile only) -->
+    <button type="button" class="close-btn d-md-none" (click)="closeSidebar()">
+      <i class="ti ti-x"></i>
+    </button>
+  </div>
+
+  <!-- nav links -->
+  <div class="sidebar-nav">
+    <p class="nav-section-label">Main menu</p>
+
+    <ul class="nav-list">
+      <li>
+        <a
+          routerLink="/dashboard"
+          routerLinkActive="nav-active"
+          class="nav-link"
+          (click)="closeSidebar()"
+        >
+          <span class="nav-icon"><i class="ti ti-home"></i></span>
+          <span class="nav-label">Dashboard</span>
+        </a>
+      </li>
+      <li>
+        <a
+          routerLink="/jobs"
+          routerLinkActive="nav-active"
+          class="nav-link"
+          (click)="closeSidebar()"
+        >
+          <span class="nav-icon"><i class="ti ti-tractor"></i></span>
+          <span class="nav-label">Plowing jobs</span>
+          <span class="nav-badge badge-green">{{ jobsCount() }}</span>
+        </a>
+      </li>
+      <li>
+        <a
+          routerLink="/diesel"
+          routerLinkActive="nav-active"
+          class="nav-link"
+          (click)="closeSidebar()"
+        >
+          <span class="nav-icon"><i class="ti ti-gas-station"></i></span>
+          <span class="nav-label">Diesel</span>
+        </a>
+      </li>
+      <li>
+        <a
+          routerLink="/farmers"
+          routerLinkActive="nav-active"
+          class="nav-link"
+          (click)="closeSidebar()"
+        >
+          <span class="nav-icon"><i class="ti ti-users"></i></span>
+          <span class="nav-label">Farmers</span>
+        </a>
+      </li>
+    </ul>
+
+    <p class="nav-section-label">Finance</p>
+
+    <ul class="nav-list">
+      <li>
+        <a
+          routerLink="/pending-payments"
+          routerLinkActive="nav-active"
+          class="nav-link"
+          (click)="closeSidebar()"
+        >
+          <span class="nav-icon"><i class="ti ti-clock-exclamation"></i></span>
+          <span class="nav-label">Pending</span>
+          <span class="nav-badge badge-amber" *ngIf="pendingCount() > 0">
+            {{ pendingCount() }}
+          </span>
+        </a>
+      </li>
+      <li>
+        <a
+          routerLink="/reports"
+          routerLinkActive="nav-active"
+          class="nav-link"
+          (click)="closeSidebar()"
+        >
+          <span class="nav-icon"><i class="ti ti-chart-bar"></i></span>
+          <span class="nav-label">Reports</span>
+        </a>
+      </li>
+    </ul>
+
+    <p class="nav-section-label">Quick add</p>
+
+    <div class="quick-btns">
+      <button
+        type="button"
+        class="quick-btn quick-btn-green"
+        (click)="openAddJob()"
+      >
+        <i class="ti ti-plus"></i> Add job
+      </button>
+      <button
+        type="button"
+        class="quick-btn quick-btn-red"
+        (click)="openAddDiesel()"
+      >
+        <i class="ti ti-plus"></i> Add diesel
+      </button>
+    </div>
+  </div>
+
+  <!-- sidebar footer -->
+  <div class="sidebar-footer">
+    <div class="user-row">
+      <div class="user-avatar">M</div>
+      <div>
+        <p class="user-name">Manoj</p>
+        <p class="user-role">Tractor owner</p>
+      </div>
+    </div>
+    <button type="button" class="logout-btn" (click)="logout()">
+      <i class="ti ti-logout"></i> Log out
+    </button>
+  </div>
+</aside>

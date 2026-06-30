@@ -1,4 +1,5 @@
-.logo-image{
-    height: 70px;
-    
+@media (max-width: 768px) {
+  .main-content {
+    padding-top: 56px; 
+  }
 }
